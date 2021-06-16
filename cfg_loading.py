@@ -24,11 +24,11 @@ def cfg_loading(toml='',trying=""):
     # cfg = utils.loadConfigFile(f"/gpfs/milgram/project/turk-browne/users/kp578/realtime/rt-cloud/projects/rtSynth_rt/conf/{toml}")
     if len(toml.split("/"))==1:
         if 'watts' in os.getcwd():
-            toml=f"/home/watts/Desktop/ntblab/kailong/rtSynth_rt/projects/rtSynth_rt/conf/{toml}"
+            toml=f"/home/watts/Desktop/ntblab/kailong/rt-cloud/projects/rtSynth_rt/conf/{toml}"
         elif 'kailong' in os.getcwd():
-            toml=f"/Users/kailong/Desktop/rtEnv/rtSynth_rt/projects/rtSynth_rt/conf/{toml}"
+            toml=f"/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/conf/{toml}"
         elif 'milgram' in os.getcwd():
-            toml=f"/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/projects/rtSynth_rt/conf/{toml}"
+            toml=f"/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/conf/{toml}"
         else:
             raise Exception('path error')
     else:
@@ -36,16 +36,15 @@ def cfg_loading(toml='',trying=""):
     
     if 'watts' in os.getcwd():
         cfg = utils.loadConfigFile(toml)
-        cfg.projectDir="/home/watts/Desktop/ntblab/kailong/rtSynth_rt/"
+        cfg.projectDir="/home/watts/Desktop/ntblab/kailong/rt-cloud/projects/rtSynth_rt/"
     elif 'kailong' in os.getcwd():
         cfg = utils.loadConfigFile(toml)
-        cfg.projectDir="/Users/kailong/Desktop/rtEnv/rtSynth_rt/"
+        cfg.projectDir="/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/"
     elif 'milgram' in os.getcwd():
         cfg = utils.loadConfigFile(toml)
-        cfg.projectDir="/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/"
+        cfg.projectDir="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/"
     else: 
         raise Exception('path error')
-    
     # cfg.tmp_folder="/gpfs/milgram/scratch60/turk-browne/kp578/rtcloud_rt/"
     cfg.tmp_folder="/tmp/" # for speeding up, use the storage on the local memory unit
     cfg.orderFolder=f'{cfg.projectDir}expScripts/recognition/orders/'

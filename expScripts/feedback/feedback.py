@@ -4,9 +4,9 @@ import traceback,time
 # try:
 import os
 if 'watts' in os.getcwd():
-    main_dir = "/home/watts/Desktop/ntblab/kailong/rtSynth_rt/"
+    main_dir = "/home/watts/Desktop/ntblab/kailong/rt-cloud/projects/rtSynth_rt/"
 else:
-    main_dir="/Users/kailong/Desktop/rtEnv/rtSynth_rt/"
+    main_dir="/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/"
 import sys
 sys.path.append(main_dir)
 sys.path.append(main_dir+"expScripts/feedback/")
