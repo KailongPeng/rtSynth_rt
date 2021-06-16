@@ -36,19 +36,30 @@ major steps:
 '''
 
 # import and set up environment
+import os
+if 'watts' in os.getcwd():
+    projectDir="/home/watts/Desktop/ntblab/kailong/rt-cloud/projects/rtSynth_rt/"
+elif 'kailong' in os.getcwd():
+    projectDir="/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/"
+elif 'milgram' in os.getcwd():
+    projectDir="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/"
+else: 
+    raise Exception('path error')
 import sys
+sys.path.append(projectDir)
+sys.path.append(projectDir+"../../")
+
 from subprocess import call
 import nibabel as nib
 import pydicom as dicom
 import numpy as np
 import time
-import os
 from glob import glob
 import shutil
 import pandas as pd
 # from import convertDicomFileToNifti
 from rtCommon.imageHandling import convertDicomImgToNifti, readDicomFromFile
-from rtCommon.cfg_loading import mkdir,cfg_loading
+from cfg_loading import mkdir,cfg_loading
 
 # setting up code testing environment: 
 # from rtCommon.cfg_loading import mkdir,cfg_loading ;cfg = cfg_loading('pilot_sub001.ses1.toml')
