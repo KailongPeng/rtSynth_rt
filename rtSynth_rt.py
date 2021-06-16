@@ -491,8 +491,8 @@ def main(argv=None):
 
     # Also try the placeholder for bidsInterface (an upcoming feature)
     bidsInterface = clientInterfaces.bidsInterface
-    res = bidsInterface.echo("test")
-    print(res)
+    # res = bidsInterface.echo("test")
+    # print(res)
 
     # obtain paths for important directories (e.g. location of dicom files)
     # if cfg.imgDir is None:
