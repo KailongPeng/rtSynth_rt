@@ -42,13 +42,14 @@ if verbose:
 # import important modules
 import os,time
 import sys
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+# sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
 import argparse
 import warnings
 import numpy as np
 import nibabel as nib
 import scipy.io as sio
-from rtCommon.cfg_loading import mkdir,cfg_loading
+from cfg_loading import mkdir,cfg_loading
 from subprocess import call
 import joblib
 import pandas as pd
@@ -85,7 +86,7 @@ sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScript
 
 # obtain the full path for the configuration toml file
 # defaultConfig = os.path.join(currPath, 'conf/sample.toml')
-defaultConfig = '/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/projects/rtSynth_rt/'+"sub001.ses3.toml"
+defaultConfig = '/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/projects/rtSynth_rt/conf/'+"sub001.ses3.toml"
 
 
 def doRuns(cfg, dataInterface, subjInterface, webInterface):
