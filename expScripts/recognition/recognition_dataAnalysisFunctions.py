@@ -297,9 +297,9 @@ def minimalClass(cfg,testRun=None,recordingTxt=None,forceGreedy=""):
         return int(np.ceil(n_vox * prop))
 
     if 'milgram' in os.getcwd():
-        main_dir='/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/'
+        main_dir='/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/'
     else:
-        main_dir='/Volumes/GoogleDrive/My Drive/Turk_Browne_Lab/rtcloud_kp/'
+        main_dir='/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/'
 
     working_dir=main_dir
     os.chdir(working_dir)
@@ -310,18 +310,24 @@ def minimalClass(cfg,testRun=None,recordingTxt=None,forceGreedy=""):
     '''
     runRecording = pd.read_csv(f"{cfg.recognition_dir}../runRecording.csv")
     actualRuns = list(runRecording['run'].iloc[list(np.where(1==1*(runRecording['type']=='recognition'))[0])]) # can be [1,2,3,4,5,6,7,8] or [1,2,4,5]
-    if len(actualRuns) < 8:
-        runRecording_preDay = pd.read_csv(f"{cfg.subjects_dir}{cfg.subjectName}/ses{cfg.session-1}/recognition/../runRecording.csv")
-        actualRuns_preDay = list(runRecording_preDay['run'].iloc[list(np.where(1==1*(runRecording_preDay['type']=='recognition'))[0])])[-(8-len(actualRuns)):] # might be [5,6,7,8]
-    else: 
-        actualRuns_preDay = []
 
-    # assert len(actualRuns_preDay)+len(actualRuns)==8 
-    if len(actualRuns_preDay)+len(actualRuns)<8:
-        runRecording_prepreDay = pd.read_csv(f"{cfg.subjects_dir}{cfg.subjectName}/ses{cfg.session-2}/recognition/../runRecording.csv")
-        actualRuns_prepreDay = list(runRecording_prepreDay['run'].iloc[list(np.where(1==1*(runRecording_prepreDay['type']=='recognition'))[0])])[-(8-len(actualRuns)-len(actualRuns_preDay)):] # might be [5,6,7,8]
-    else:
+    if forceGreedy=="forceGreedy": # 当使用forceGreedy的时候，只使用当前的session的数据进行模型的训练和
+        actualRuns_preDay = []
         actualRuns_prepreDay = []
+    else:
+        if len(actualRuns) < 8:
+            runRecording_preDay = pd.read_csv(f"{cfg.subjects_dir}{cfg.subjectName}/ses{cfg.session-1}/recognition/../runRecording.csv")
+            actualRuns_preDay = list(runRecording_preDay['run'].iloc[list(np.where(1==1*(runRecording_preDay['type']=='recognition'))[0])])[-(8-len(actualRuns)):] # might be [5,6,7,8]
+        else: 
+            actualRuns_preDay = []
+
+        # assert len(actualRuns_preDay)+len(actualRuns)==8 
+        if len(actualRuns_preDay)+len(actualRuns)<8:
+            runRecording_prepreDay = pd.read_csv(f"{cfg.subjects_dir}{cfg.subjectName}/ses{cfg.session-2}/recognition/../runRecording.csv")
+            actualRuns_prepreDay = list(runRecording_prepreDay['run'].iloc[list(np.where(1==1*(runRecording_prepreDay['type']=='recognition'))[0])])[-(8-len(actualRuns)-len(actualRuns_preDay)):] # might be [5,6,7,8]
+        else:
+            actualRuns_prepreDay = []
+        
 
     objects = ['bed', 'bench', 'chair', 'table']
 
@@ -344,7 +350,7 @@ def minimalClass(cfg,testRun=None,recordingTxt=None,forceGreedy=""):
         new_run_indexs.append(new_run_index)
         new_run_index+=1
         behav_data=t if ii==0 else pd.concat([behav_data,t])
-
+    
     for ii,run in enumerate(actualRuns_preDay): # load behavior and brain data for previous session
         t = np.load(f"{cfg.subjects_dir}{cfg.subjectName}/ses{cfg.session-1}/recognition/brain_run{run}.npy")
         if forceGreedy=="forceGreedy":
@@ -569,9 +575,9 @@ def compareScore(cfg,testRun=None):
     def red_vox(n_vox, prop=0.1):
         return int(np.ceil(n_vox * prop))
     if 'milgram' in os.getcwd():
-        main_dir='/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/'
+        main_dir='/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/'
     else:
-        main_dir='/Volumes/GoogleDrive/My Drive/Turk_Browne_Lab/rtcloud_kp/'
+        main_dir='/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt'
     working_dir=main_dir
     os.chdir(working_dir)
 
@@ -791,7 +797,7 @@ def behaviorDataLoading(cfg,curr_run):
             isCorrect.append(SwitchCorrectResponseDict[behav_data['Item'].iloc[curr_trial]]==behav_data['Resp'].iloc[curr_trial])
         else:
             isCorrect.append(correctResponseDict[behav_data['Item'].iloc[curr_trial]]==behav_data['Resp'].iloc[curr_trial])
-            
+
     print(f"behavior pressing accuracy for run {curr_run} = {np.mean(isCorrect)}")
 
     behav_data['isCorrect']=isCorrect # merge the isCorrect clumne with the data dataframe
@@ -815,7 +821,7 @@ def fetchXnat(sess_ID):
     "rtSynth_sub001_ses2"
     import subprocess
     from subprocess import call
-    rawPath="/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/"
+    rawPath="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/"
     proc = subprocess.Popen([f'sbatch {rawPath}../fetchXNAT.sh {sess_ID}'],shell=True)
 
     Wait(f"{rawPath}{sess_ID}.zip")
@@ -848,7 +854,7 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
     import numpy as np
     import nibabel as nib
     import sys
-    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
     import time
     import pandas as pd
     from sklearn.linear_model import LogisticRegression
@@ -1154,10 +1160,10 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
 
     return recordingTxt
 
-def view_greedy_curve(tmp_folder="/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/tmp__folder_2021-06-01-19-46-52",toml="sub003.ses1.toml"):
+def view_greedy_curve(tmp_folder="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/tmp__folder_2021-06-01-19-46-52",toml="sub003.ses1.toml"):
     import os
     import sys
-    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
     import argparse
     import numpy as np
     import nibabel as nib
@@ -1229,7 +1235,7 @@ def view_greedy_curve(tmp_folder="/gpfs/milgram/project/turk-browne/projects/rtS
 def saveChosenMask(bestROIs=('8.nii.gz', '159.nii.gz', '235.nii.gz', '163.nii.gz', '271.nii.gz', '164.nii.gz', '258.nii.gz', '80.nii.gz', '218.nii.gz', '67.nii.gz', '211.nii.gz', '2.nii.gz', '220.nii.gz', '62.nii.gz', '160.nii.gz', '22.nii.gz', '79.nii.gz'),sub='sub003'):
     import nibabel as nib
     import pandas as pd
-    workingDir=f"/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/{sub}/ses1/recognition/mask/"
+    workingDir=f"/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/{sub}/ses1/recognition/mask/"
     for pn, parc in enumerate(bestROIs):
         _mask = nib.load(workingDir+f"GMschaefer_{parc}")
         aff = _mask.affine
