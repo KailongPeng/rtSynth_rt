@@ -14,11 +14,14 @@ import traceback,time
 
 import sys,os
 if 'watts' in os.getcwd():
-    sys.path.append("/home/watts/Desktop/ntblab/kailong/rtSynth_rt/")
+    sys.path.append("/home/watts/Desktop/ntblab/kailong/rt-cloud/")
+    sys.path.append("/home/watts/Desktop/ntblab/kailong/rt-cloud/projects/rtSynth_rt/")
 elif 'kailong' in os.getcwd():
-    sys.path.append("/Users/kailong/Desktop/rtEnv/rtSynth_rt/")
+    sys.path.append("/Users/kailong/Desktop/rtEnv/rt-cloud/")
+    sys.path.append("/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/")
 elif 'milgram' in os.getcwd():
-    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/')
+    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
 
 import os
 from psychopy import visual, event, core, logging, gui, data, monitors
@@ -29,8 +32,8 @@ import numpy as np
 import pandas as pd
 import pylink
 import argparse
-import rtCommon.fmrisim as sim
-from rtCommon.cfg_loading import mkdir,cfg_loading
+import fmrisim as sim
+from cfg_loading import mkdir,cfg_loading
 
 # imcode:
 # A: bed
@@ -84,9 +87,9 @@ mywin = visual.Window(
     units='height')
 
 if 'watts' in os.getcwd():
-    main_dir = "/home/watts/Desktop/ntblab/kailong/rtSynth_rt/" # main_dir = "/home/watts/Desktop/ntblab/kailong/rtSynth_rt/"
+    main_dir = "/home/watts/Desktop/ntblab/kailong/rt-cloud/projects/rtSynth_rt/" # main_dir = "/home/watts/Desktop/ntblab/kailong/rtSynth_rt/"
 else:
-    main_dir="/Users/kailong/Desktop/rtEnv/rtSynth_rt/"
+    main_dir="/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/"
 
 # This sets the order of stimulus presentation for all of the subjects' runs
 # If it is the first run, randomly select and save out six orders, otherwise read in that file
@@ -112,7 +115,7 @@ trial_list = pd.read_csv(order)
 
 # 丢弃最开始的几个TR。总共需要290s/2=145TR,再加上我需要的24s，那么recognition一共是145+12=157 TR
 # Jeff: Maybe avoid having an onset for at least the first 4 TRs
-countDown = 3 #决定丢弃每个run开始的6个TR，实际上我的order里面还有6s的固定值，因此从scan开始到第一张图片出现过去了6+6=12s
+countDown = 6 #决定丢弃每个run开始的6个TR，实际上我的order里面还有6s的固定值，因此从scan开始到第一张图片出现过去了6+6=12s
 endCountDown = 7 #每个run结束有7个TR的blank，实际上由于之前吃掉了9个TR，现在7个TR的显示只有6个TR
 
 maxTR = int(trial_list['time'].iloc[-1] / 2 + countDown + endCountDown) 
@@ -122,7 +125,7 @@ print(f"maxTR={maxTR}")
 MR_settings = {'TR': np.float(cfg.TR), 'volumes': maxTR, 'sync': 5, 'skip': 0, 'sound': True}
 
 # check if there is a data directory and if there isn't, make one.
-mkdir('./data')
+# mkdir('./data')
 
 # check if data for this subject and run already exist, and raise an error if they do (prevent overwriting)
 
@@ -167,6 +170,12 @@ correctResponseDict={
 'B': 2,
 'C': 1,
 'D': 2}
+SwitchCorrectResponseDict={
+'A': 2,
+'B': 1,
+'C': 2,
+'D': 1}
+
 # Initialize two blank lists -
 trials = [] # 'trials' to develop a list of indices pointing to images (for drawing from preloaded images)
 changes = [] # 'changes' to develop a list of 1s or 0s to indicate whether there should or should not be a red fixation
@@ -279,6 +288,7 @@ def display(countDown,message): #endMorphing can be [1,5,9,13]
 responseNumber = 0
 TrialNumber = 0
 secondCounter=1
+switchButtonOrientation = bool(np.random.randint(2))
 
 # start global clock and fMRI pulses (start simulated or wait for real)
 print('Starting sub {} in run #{} - list #{}'.format(sub, run, choose[run - 1]))
@@ -314,7 +324,7 @@ while globalClock.getTime() <= (MR_settings['volumes'] * MR_settings['TR']): # �
             data = data.append({'Trial_ID':Trial_ID[0],'Sub': sub, 'Run': run, 'TR': trigger_counter - 1, 'Onset': time_list[0],
                                 'Item': trials[0], 'Change': changes[0], 'Resp': resp,
                                 'RT': resp_time, 'image_on': image_on, 'button_on': button_on,
-                                'button_off': button_off},
+                                'button_off': button_off,'switchButtonOrientation':switchButtonOrientation},
                                 ignore_index=True)
             data.to_csv(newfile) 
             # pop out all first items, and reset responses, because they correspond to the trial that already happened
@@ -341,8 +351,15 @@ while globalClock.getTime() <= (MR_settings['volumes'] * MR_settings['TR']): # �
                 time1s = 1
                 time19s = 1
                 imgPath = f"{cfg.recognition_expScripts_dir}{imgPaths[0]}"
-                button_left = button_lefts[0]
-                button_right = button_rights[0]
+                # button_left = button_lefts[0]
+                # button_right = button_rights[0]
+                if switchButtonOrientation: # decide randomly whether to switch the orientation of two buttons
+                    button_left = button_rights[0]
+                    button_right = button_lefts[0]
+                else:
+                    button_left = button_lefts[0]
+                    button_right = button_rights[0]
+
                 imgPaths.pop(0)
                 img=ims[0]
                 button_lefts.pop(0)
@@ -360,6 +377,7 @@ while globalClock.getTime() <= (MR_settings['volumes'] * MR_settings['TR']): # �
         if "5" not in keys:
             responseNumber+=1
             resp = keys[0]
+            
             resp_time = globalTime - image_on_persist - 1  # when the resp_time is negative, that means the subject press a button before the button appears.
             print('resp_time=', resp_time)
             print('globalTime', globalTime)
@@ -367,14 +385,29 @@ while globalClock.getTime() <= (MR_settings['volumes'] * MR_settings['TR']): # �
             # Print output to the screen so we can monitor performance
             print()
 
-            
-            qual = 'Correctly' if correctResponseDict[img]==int(resp) else 'Incorrectly'
-            if correctResponseDict[img]==int(resp):
-                hits += 1
+            if switchButtonOrientation:
+                qual = 'Correctly' if SwitchCorrectResponseDict[img]==int(resp) else 'Incorrectly'
+                if SwitchCorrectResponseDict[img]==int(resp):
+                    hits += 1
+                else:
+                    falses += 1
             else:
-                falses += 1
+                qual = 'Correctly' if correctResponseDict[img]==int(resp) else 'Incorrectly'
+                if correctResponseDict[img]==int(resp):
+                    hits += 1
+                else:
+                    falses += 1
+                
+            # qual = 'Correctly' if correctResponseDict[img]==int(resp) else 'Incorrectly'
+            # if correctResponseDict[img]==int(resp):
+            #     hits += 1
+            # else:
+            #     falses += 1
+
             print('- {} pressed {} after {} s. {} right, {} wrong. -'.format(qual, resp, np.around(resp_time,2), hits, falses))
             event.clearEvents()
+
+            switchButtonOrientation = bool(np.random.randint(2)) # update the switchButtonOrientation
 
     if len(onsets) != 0:  # if there are still trials remaining, draw the trial
         nindex = alpha.index(trials[0])  # turn image letter code into number

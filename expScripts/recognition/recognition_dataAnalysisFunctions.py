@@ -767,7 +767,7 @@ def behaviorDataLoading(cfg,curr_run):
     'D': 2}
 
     # extract the labels which is selected by the subject and coresponding TR and time
-    behav_data = behav_data[['TR', 'image_on', 'Resp',  'Item']] # the TR, the real time it was presented, 
+    behav_data = behav_data[['TR', 'image_on', 'Resp',  'Item', 'switchButtonOrientation']] # the TR, the real time it was presented, 
 
     # 为了处理 情况 A.被试的反应慢了一个TR，或者 B.两个按钮都被按了(这种情况下按照第二个按钮处理)
     # 现在的问题是”下一个TR“可能超过了behav_data的长度
@@ -786,7 +786,12 @@ def behaviorDataLoading(cfg,curr_run):
     # check if the subject's response is correct. When Item is A,bed, response should be 1, or it is wrong
     isCorrect=[]
     for curr_trial in range(behav_data.shape[0]):
-        isCorrect.append(correctResponseDict[behav_data['Item'].iloc[curr_trial]]==behav_data['Resp'].iloc[curr_trial])
+        # isCorrect.append(correctResponseDict[behav_data['Item'].iloc[curr_trial]]==behav_data['Resp'].iloc[curr_trial])
+        if behav_data['switchButtonOrientation'].iloc[curr_trial]:
+            isCorrect.append(SwitchCorrectResponseDict[behav_data['Item'].iloc[curr_trial]]==behav_data['Resp'].iloc[curr_trial])
+        else:
+            isCorrect.append(correctResponseDict[behav_data['Item'].iloc[curr_trial]]==behav_data['Resp'].iloc[curr_trial])
+            
     print(f"behavior pressing accuracy for run {curr_run} = {np.mean(isCorrect)}")
 
     behav_data['isCorrect']=isCorrect # merge the isCorrect clumne with the data dataframe
