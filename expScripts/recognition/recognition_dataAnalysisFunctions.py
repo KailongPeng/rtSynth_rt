@@ -881,7 +881,7 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
     '''
 
 
-    from rtCommon.cfg_loading import mkdir,cfg_loading
+    from cfg_loading import mkdir,cfg_loading
     # config="sub001.ses1.toml"
     # cfg = cfg_loading(config)
 
