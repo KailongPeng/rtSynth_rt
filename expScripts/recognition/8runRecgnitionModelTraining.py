@@ -11,7 +11,7 @@ output:
 
 import os
 import sys
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/')
 import argparse
 import numpy as np
 import nibabel as nib
@@ -56,7 +56,7 @@ from rtCommon.cfg_loading import mkdir,cfg_loading
 # config="sub001.ses2.toml"
 cfg = cfg_loading(args.config)
 
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/')
 from recognition_dataAnalysisFunctions import recognition_preprocess,minimalClass,behaviorDataLoading,greedyMask,normalize #,classifierEvidence
 def wait(waitfor, delay=1):
     while not os.path.exists(waitfor):
