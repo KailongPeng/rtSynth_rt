@@ -2,13 +2,14 @@
 # This code generate the trial order of recognition run. This is part of the old code in http://127.0.0.1:9206/notebooks/users/kp578/rtSynth/kp_scratch/expcode/recognition%20trial.ipynb
 
 import os
-os.chdir('/Volumes/GoogleDrive/My Drive/Turk_Browne_Lab/rtcloud_kp/expScripts/recognition/')
+os.chdir('/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/expScripts/recognition/')
 
 import random,string,pickle
 import pandas as pd
 import random
 from tqdm import tqdm
 import numpy as np
+import matplotlib.pyplot as plt
 
 def save_obj(obj, name):
     with open(name + '.pkl', 'wb') as f:
@@ -23,8 +24,22 @@ def load_obj(name):
 # prevent back to back repetition 
 # generate a new order for each subject and each new recognition run.
 TR=2
-subj=1
+
+# generate a random list containing 19 4s , 19 6s and 10 8s
+def get_SOA_List():
+    SOA_List=[2*TR]*19+[3*TR]*19+[4*TR]*10
+    random.shuffle(SOA_List)
+    print(f"SOA_List={SOA_List}")
+    # plt.figure()
+    # plt.plot(SOA_List)
+    print(f"number of 4s={sum((np.asarray(SOA_List)==4)*1)}")
+    print(f"number of 6s={sum((np.asarray(SOA_List)==6)*1)}")
+    print(f"number of 8s={sum((np.asarray(SOA_List)==8)*1)}")
+    print(f"total time={np.sum(SOA_List)} s")
+    return SOA_List
+
 for subj in tqdm(range(1,51)):
+    
     order=[]
     quarter=0
 
@@ -118,16 +133,18 @@ for subj in tqdm(range(1,51)):
     imagePath=imageProperty()
 
     cumTime=6
+    SOA_List = get_SOA_List()
     for currImg in range(len(order)):
         path,morph,axis,button_left,button_right,viewPoint=imagePath.getPath(order[currImg])
 
         p=np.random.uniform(0,1,1)
-        if p<0.4:
-            SOA=2*TR
-        elif p<0.8:
-            SOA=3*TR
-        else:
-            SOA=4*TR
+        # if p<0.4:
+        #     SOA=2*TR
+        # elif p<0.8:
+        #     SOA=3*TR
+        # else:
+        #     SOA=4*TR
+        SOA = SOA_List[currImg]
         orders_df=orders_df.append({'time':cumTime,
                                     'imnum':_order[currImg],
                                     'dur':1.0,
@@ -141,4 +158,4 @@ for subj in tqdm(range(1,51)):
                                     'viewPoint':viewPoint},
                                    ignore_index=True)
         cumTime=cumTime+SOA
-    orders_df.to_csv('orders/recognitionOrders_{}.csv'.format(subj))  
+    orders_df.to_csv('orders/recognitionOrders_{}.csv'.format(subj))
