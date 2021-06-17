@@ -1202,7 +1202,7 @@ def view_greedy_curve(tmp_folder="/gpfs/milgram/project/turk-browne/projects/rt-
     argParser.add_argument('--preprocessOnly', default=False, action='store_true', help='whether to only do preprocess and skip everything else')
 
     args = argParser.parse_args("")
-    from rtCommon.cfg_loading import mkdir,cfg_loading
+    from cfg_loading import mkdir,cfg_loading
     # config="sub001.ses2.toml"
     cfg = cfg_loading(args.config)
 

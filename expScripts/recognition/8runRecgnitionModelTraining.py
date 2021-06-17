@@ -12,6 +12,9 @@ output:
 import os
 import sys
 sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/')
+
 import argparse
 import numpy as np
 import nibabel as nib
@@ -52,11 +55,11 @@ argParser.add_argument('--tmp_folder', default='' , type=str, help='tmp_folder')
 
 
 args = argParser.parse_args()
-from rtCommon.cfg_loading import mkdir,cfg_loading
+from cfg_loading import mkdir,cfg_loading
 # config="sub001.ses2.toml"
 cfg = cfg_loading(args.config)
 
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/')
+
 from recognition_dataAnalysisFunctions import recognition_preprocess,minimalClass,behaviorDataLoading,greedyMask,normalize #,classifierEvidence
 def wait(waitfor, delay=1):
     while not os.path.exists(waitfor):
