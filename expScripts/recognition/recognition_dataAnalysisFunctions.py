@@ -425,6 +425,8 @@ def minimalClass(cfg,testRun=None,recordingTxt=None,forceGreedy="_"):
     for curr_trial in range(META.shape[0]):
         label.append(imcodeDict[META['Item'].iloc[curr_trial]])
     META['label']=label # merge the label column with the data dataframe
+    
+    accTable = pd.DataFrame()
 
     # Which run to use as test data (leave as None to not have test data)
     # testRun = 0 # when testing: testRun = 2 ; META['run_num'].iloc[:5]=2
