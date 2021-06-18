@@ -574,7 +574,7 @@ def minimalClass(cfg,testRun=None,recordingTxt=None,forceGreedy="_"):
                 print(naming, acc)
                 accs[naming]=acc
     print(f"average 2 way clf accuracy={np.mean(list(accs.values()))}")
-    accTable.to_csv(f"./logs/accTable_{cfg.jobID}.csv") 
+    accTable.to_csv(f"{cfg.projectDir}/../../logs/accTable_{cfg.jobID}.csv") 
     cfg.accTable=accTable
     return accs,cfg
 
