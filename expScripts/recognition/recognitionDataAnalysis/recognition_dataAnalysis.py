@@ -33,7 +33,7 @@ def recognition_dataAnalysis_brain(sub='pilot_sub001',run=1,ses=1): # normally s
 	# and activate_rt
 	# The purpose of this script is to analyze the brain data from recognition run
 
-	homeDir="/gpfs/milgram/project/turk-browne/projects/rtcloud_kp/" 
+	homeDir="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/" 
 	dataDir=f"{homeDir}subjects/{sub}/ses{ses}_recognition/run{run}/nifti/"
 
 	# # if the data have been analyzed, load the saved data.
@@ -136,9 +136,9 @@ def recognition_dataAnalysis(sub='pilot_sub001',run=1,ses=1): # normally sub sho
 	import os
 
 	if 'milgram' in os.getcwd():
-		main_dir='/gpfs/milgram/project/turk-browne/projects/rtcloud_kp/'
+		main_dir='/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/'
 	else:
-		main_dir='/Volumes/GoogleDrive/My Drive/Turk_Browne_Lab/rtcloud_kp/'
+		main_dir='/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/'
 
 	datapath=main_dir+f'subjects/{sub}/ses{ses}_recognition/run{run}/{sub}_{run}.csv'
 	behav_data=pd.read_csv(datapath)

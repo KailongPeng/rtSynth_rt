@@ -23,7 +23,7 @@ if __name__ == "__main__":
     argParser = argparse.ArgumentParser()
     argParser.add_argument('--filesremote', '-x', default=False, action='store_true',
                            help='dicom files retrieved from remote server')
-    argParser.add_argument('--config', '-c', default='/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/projects/rtSynth_rt/conf/'+defaultConfig, type=str,
+    argParser.add_argument('--config', '-c', default='/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/projects/rtSynth_rt/conf/'+defaultConfig, type=str,
                            help='experiment file (.json or .toml)')
     argParser.add_argument('--test', '-t', default=False, action='store_true',
                            help='start projectInterface in test mode, unsecure')

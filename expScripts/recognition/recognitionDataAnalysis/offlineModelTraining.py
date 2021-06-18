@@ -87,11 +87,11 @@ def minimalClass(sub='pilot_sub001',ses=1):
         return inds
 
     if 'milgram' in os.getcwd():
-        main_dir='/gpfs/milgram/project/turk-browne/projects/rtcloud_kp/'
+        main_dir='/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/'
     else:
-        main_dir='/Volumes/GoogleDrive/My Drive/Turk_Browne_Lab/rtcloud_kp/'
+        main_dir='/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt'
 
-    working_dir='/gpfs/milgram/project/turk-browne/projects/rtcloud_kp/expScripts/recognition/recognitionDataAnalysis/'
+    working_dir='/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/'
     os.chdir(working_dir)
 
     # data_dir=f'/gpfs/milgram/project/turk-browne/jukebox/ntb/projects/sketchloop02/features/{filterType}/recognition/'

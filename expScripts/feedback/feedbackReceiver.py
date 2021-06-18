@@ -191,9 +191,9 @@ if __name__ == "__main__":
     ses = args.ses
     run = args.run
     if 'watts' in os.getcwd():
-        main_dir = "/home/watts/Desktop/ntblab/kailong/rtcloud_kp/"
+        main_dir = "/home/watts/Desktop/ntblab/kailong/rt-cloud/projects/rtSynth_rt/"
     else:
-        main_dir="/Volumes/GoogleDrive/My Drive/Turk_Browne_Lab/rtcloud_kp/"
+        main_dir="/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/"
 
     parameterWriteFile = main_dir+f"subjects/{sub}/ses{ses}_feedbackParameter/run_{run}.csv"
 
