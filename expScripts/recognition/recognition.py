@@ -91,12 +91,6 @@ if 'watts' in os.getcwd():
 else:
     main_dir="/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/"
 
-# This sets the order of stimulus presentation for all of the subjects' runs
-# If it is the first run, randomly select and save out six orders, otherwise read in that file
-# if run == 1:
-#     choose = np.random.choice(np.arange(1, 49), 8, replace=False)
-#     np.save(f"{main_dir}subjects/{sub}/ses1_recognition/run{run}/{sub}_orders.npy", choose)
-# else:
 choose = np.load(f"{cfg.subjects_dir}/{cfg.subjectName}/ses{cfg.session}/recognition/choose.npy")
 
 # read the saved order 
@@ -115,7 +109,7 @@ trial_list = pd.read_csv(order)
 
 # 丢弃最开始的几个TR。总共需要290s/2=145TR,再加上我需要的24s，那么recognition一共是145+12=157 TR
 # Jeff: Maybe avoid having an onset for at least the first 4 TRs
-countDown = 6 #决定丢弃每个run开始的6个TR，实际上我的order里面还有6s的固定值，因此从scan开始到第一张图片出现过去了6+6=12s
+countDown = 3 #决定丢弃每个run开始的6个TR，实际上我的order里面还有6s的固定值，因此从scan开始到第一张图片出现过去了6+6=12s
 endCountDown = 7 #每个run结束有7个TR的blank，实际上由于之前吃掉了9个TR，现在7个TR的显示只有6个TR
 
 maxTR = int(trial_list['time'].iloc[-1] / 2 + countDown + endCountDown) 
@@ -124,11 +118,7 @@ print(f"maxTR={maxTR}")
 # Settings for MRI sequence
 MR_settings = {'TR': np.float(cfg.TR), 'volumes': maxTR, 'sync': 5, 'skip': 0, 'sound': True}
 
-# check if there is a data directory and if there isn't, make one.
-# mkdir('./data')
-
 # check if data for this subject and run already exist, and raise an error if they do (prevent overwriting)
-
 newfile = f"{main_dir}subjects/{sub}/ses{cfg.session}/recognition/{sub}_{run}.csv"
 assert not os.path.isfile(newfile), f"FILE {newfile} ALREADY EXISTS - check subject and run number"
 
