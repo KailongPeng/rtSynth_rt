@@ -80,6 +80,14 @@ def cfg_loading(toml='',trying=""):
     cfg.mask_dir          = f"{cfg.recognition_dir}mask/"
     cfg.GMINFUNC=f"{cfg.subjects_dir}{cfg.subjectName}/ses1/anat/gm_func.nii.gz"
     cfg.adaptiveThreshold=f"{cfg.subjects_dir}{cfg.subjectName}/adaptiveThreshold.csv"
+    cfg.twoWayClfDict={
+        "AB":['bedtable_bedchair','\nbedtable_tablebench'],
+        "AC":['bedchair_bedtable','\nbedchair_chairbench'],
+        "AD":['bedchair_bedbench','\nbedchair_bedtable'],
+        "BC":['bedchair_chairtable','\nbedtable_bedbench'],
+        "BD":['bedchair_chairbench','\nbedchair_chairtable'],
+        "CD":['bedtable_tablebench','\nbedtable_tablechair'],
+    }
     # prepare folder structure
     mkdir(f"{cfg.subjects_dir}{cfg.subjectName}") # mkdir subject folder
     for curr_ses in [1,5,6]: # keep 6 here just for sub002
