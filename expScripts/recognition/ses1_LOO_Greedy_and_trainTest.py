@@ -45,7 +45,7 @@ argParser.add_argument('--jobID', default='' , type=str, help='jobID')
 argParser.add_argument('--tmp_folder', default='_', type=str, help='tmp_folder')
 
 args = argParser.parse_args()
-from rtCommon.cfg_loading import mkdir,cfg_loading
+from cfg_loading import mkdir,cfg_loading
 # config="sub001.ses2.toml"
 cfg = cfg_loading(args.config)
 cfg.jobID=args.jobID
