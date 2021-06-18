@@ -7,7 +7,7 @@
 #SBATCH --mem 4GB
 #SBATCH -n 1
 
-# sbatch projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.sh sub003.ses5.toml 1 compare_forceGreedy 1 tmp__folder_2021-06-14-16-58-20/ 1
+# sbatch projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.sh sub003.ses2.toml 1 1 1 compare_forceGreedy tmp__folder_2021-06-14-16-58-20/
 # 1:sub003.ses5.toml 
 # 2:1 
 # 3:1

@@ -338,9 +338,14 @@ def minimalClass(cfg,testRun=None,recordingTxt=None,forceGreedy="_"):
         if forceGreedy=="forceGreedy":
             mask = np.load(f"{cfg.chosenMask_using}")
             print(f"loading {cfg.chosenMask_using}")
-        else:
+        elif forceGreedy=="compare_forceGreedy":
             mask = np.load(f"{cfg.chosenMask}")
             print(f"loading {cfg.chosenMask}")
+        elif forceGreedy=="_":
+            mask = np.load(f"{cfg.chosenMask}")
+            print(f"loading {cfg.chosenMask}")
+        else:
+            raise Exception("forceGreedy is wrong")
         t = t[:,mask==1]
         t = normalize(t)
         brain_data=t if ii==0 else np.concatenate((brain_data,t), axis=0)
@@ -356,9 +361,14 @@ def minimalClass(cfg,testRun=None,recordingTxt=None,forceGreedy="_"):
         if forceGreedy=="forceGreedy":
             mask = np.load(f"{cfg.chosenMask_using}")
             print(f"loading {cfg.chosenMask_using}")
-        else:
+        elif forceGreedy=="compare_forceGreedy":
             mask = np.load(f"{cfg.chosenMask}")
             print(f"loading {cfg.chosenMask}")
+        elif forceGreedy=="_":
+            mask = np.load(f"{cfg.chosenMask}")
+            print(f"loading {cfg.chosenMask}")
+        else:
+            raise Exception("forceGreedy is wrong")
         t = t[:,mask==1]
         t = normalize(t)
         brain_data = np.concatenate((brain_data,t), axis=0)
@@ -374,9 +384,14 @@ def minimalClass(cfg,testRun=None,recordingTxt=None,forceGreedy="_"):
         if forceGreedy=="forceGreedy":
             mask = np.load(f"{cfg.chosenMask_using}")
             print(f"loading {cfg.chosenMask_using}")
-        else:
+        elif forceGreedy=="compare_forceGreedy":
             mask = np.load(f"{cfg.chosenMask}")
             print(f"loading {cfg.chosenMask}")
+        elif forceGreedy=="_":
+            mask = np.load(f"{cfg.chosenMask}")
+            print(f"loading {cfg.chosenMask}")
+        else:
+            raise Exception("forceGreedy is wrong")
         t = t[:,mask==1]
         t = normalize(t)
         brain_data = np.concatenate((brain_data,t), axis=0)
