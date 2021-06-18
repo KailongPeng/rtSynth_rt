@@ -868,6 +868,50 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
     if os.path.exists(f"{cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{1}.pkl"):
         print(f"{cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_1.pkl exists")
         # raise Exception('runned or running')
+
+        # when every mask has run, find the best mask and save as the chosenMask
+        roiloc="schaefer2018"
+        dataSource="realtime"
+        subjects=[cfg.subjectName]
+        N=N
+        GreedyBestAcc=np.zeros((len(subjects),N+1))
+        GreedyBestAcc[GreedyBestAcc==0]=None
+        for ii,subject in enumerate(subjects):
+            for len_topN_1 in range(N-1,0,-1):
+                try:
+                    # print(f"./{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len_topN_1}")
+                    di = load_obj(f"{cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len_topN_1}")
+                    GreedyBestAcc[ii,len_topN_1-1] = di['bestAcc']
+                except:
+                    pass
+        GreedyBestAcc=GreedyBestAcc.T
+
+        # import matplotlib.pyplot as plt
+        # plt.imshow(GreedyBestAcc)
+        # _=plt.figure()
+        # for i in range(GreedyBestAcc.shape[0]):
+        #     plt.scatter([i]*GreedyBestAcc.shape[1],GreedyBestAcc[i],c='g',s=2)
+        # plt.plot(np.arange(GreedyBestAcc.shape[0]),np.nanmean(GreedyBestAcc,axis=1))
+
+        performance_mean = np.nanmean(GreedyBestAcc,axis=1)
+        bestID=np.where(performance_mean==max(performance_mean))[0][0]
+        di = load_obj(f"{cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{bestID+1}")
+        print(f"bestID={bestID}; best Acc = {di['bestAcc']}")
+        print(f"bestROIs={di['bestROIs']}")
+        
+        append_file(recordingTxt,f"bestID={bestID}; best Acc = {di['bestAcc']}")
+        append_file(recordingTxt,f"bestROIs={di['bestROIs']}")
+
+        mask = getMask(di['bestROIs'],cfg)
+        if forceGreedy=="forceGreedy":
+            np.save(cfg.chosenMask_training,mask)
+            print(f"saving {cfg.chosenMask_training}")
+        elif forceGreedy=="_":
+            np.save(cfg.chosenMask,mask)
+            print(f"saving {cfg.chosenMask}")
+        elif forceGreedy=='compare_forceGreedy':
+            np.save(cfg.chosenMask_training,mask)
+            print(f"saving {cfg.chosenMask_training}")
         return recordingTxt
         
 
