@@ -94,8 +94,6 @@ def prob_analysis():
     plt.ylabel("probability")
     plt.title("Gaussian fitted probability distribution")
 
-
-
 # Trained axis v.s. Untrained axis
 # Drift happening 
 def plotForceGreedyAccCurve():
@@ -124,7 +122,6 @@ def plotForceGreedyAccCurve():
     axs[1].set_xlabel("session ID")
     axs[1].set_ylim([0.24,0.9])
     axs[1].set_title("using ses1 mask")
-
 
 def megaROIOverlapping():
     import os
@@ -285,12 +282,6 @@ def log_analysis():
    # fslview_deprecated GMschaefer_8.nii.gz GMschaefer_159.nii.gz GMschaefer_160.nii.gz GMschaefer_163.nii.gz
    8 159 160 163
 
-
-
-
-
-
-
 All analysis code: /Users/kailong/Desktop/rtEnv/rtSynth_rt/expScripts/feedback/feedback_dataAnalysis.py
 
 def prob_analysis():
@@ -389,8 +380,6 @@ def prob_analysis():
    plt.ylabel("probability")
    plt.title("Gaussian fitted probability distribution")
 
-
-
 # Trained axis v.s. Untrained axis
 # Drift happening
 def plotForceGreedyAccCurve():
@@ -419,7 +408,6 @@ def plotForceGreedyAccCurve():
    axs[1].set_xlabel("session ID")
    axs[1].set_ylim([0.24,0.9])
    axs[1].set_title("using ses1 mask")
-
 
 def megaROIOverlapping():
    import os
