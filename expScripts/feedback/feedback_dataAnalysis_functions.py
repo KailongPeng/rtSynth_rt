@@ -1129,3 +1129,206 @@ def organize_newGreedy_plot(): #整理所有的关于“使用第一个ses的mas
     plt.xlabel("session ID")
     plt.ylabel("acc")
     plt.ylim([0.45,1])
+
+def post_pipeline():
+    # sub003
+    pre_pipeline_1___compare_forceGreedy_list={
+        'ses2':17978038,
+        'ses3':17978125,
+        'ses4':17978126,
+        'ses5':17978127
+    }
+
+    pre_pipeline_2___forceGreedy_list={
+        'ses2':17978744,
+        'ses3':17978751,
+        'ses4':17978766,
+        'ses5':17978787
+    }
+
+    pre_pipeline_3___ses1_LOO_Greedy_and_trainTest_list={
+        'run1':17980364,
+        'run2':17980365,
+        'run3':17980366,
+        'run4':17980368,
+        'run5':17980369,
+        'run6':17980370,
+        'run7':17980373,
+        'run8':17980374
+    }
+
+
+
+
+
+
+    # # sub002
+    # pre_pipeline_1___compare_forceGreedy_list={
+    #     'ses2':17982594,
+    #     'ses3':17982614,
+    #     'ses4':17982664,
+    #     'ses5':17982673,
+    #     'ses6':17982888
+    # }
+
+
+    # pre_pipeline_2___forceGreedy_list={
+    #     'ses2':18033816,
+    #     'ses3':18033905,
+    #     'ses4':18033945,
+    #     'ses5':18033989,
+    #     'ses6':18034020
+    # }
+
+    # # pre_pipeline_3___ses1_LOO_Greedy_and_trainTest_list={
+    # #     'run1':18034656,
+    # #     'run2':18034657,
+    # #     'run3':18034658,
+    # # #     'run4':,
+    # # #     'run5':,
+    # # #     'run6':,
+    # # #     'run7':,
+    # # #     'run8':
+    # # }
+
+    # pre_pipeline_3___ses1_LOO_Greedy_and_trainTest_list={
+    #     'run1':18034836,
+    #     'run2':18034839,
+    #     'run3':18034840,
+    #     'run4':18034844,
+    #     'run5':18034846,
+    #     'run6':18034927,
+    #     'run7':18034929,
+    #     'run8':18035008
+    # }
+
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    main_dir="/gpfs/milgram/project/turk-browne/projects/rt-cloud/"
+
+
+
+    def getSummaryPlotFor(axis,offset=0.2): #axis can be 'Fourway_acc' or "AB_acc" etc
+        # 合并 pre-pipeline 3 和 pre-pipeline 2 为一条线
+
+        # 这是ses1的一个点
+        Fourway_acc_ses1={}
+        for curr_run,run in enumerate(pre_pipeline_3___ses1_LOO_Greedy_and_trainTest_list):
+            ID = pre_pipeline_3___ses1_LOO_Greedy_and_trainTest_list[run]
+            t=pd.read_csv(main_dir+f"logs/accTable_{ID}.csv")
+            Fourway_acc_ses1[run]=t.loc[curr_run,axis]
+        print(f"axis={axis}\nFourway_acc_ses1={Fourway_acc_ses1}\n\n")
+
+        # 这是 ses 2345
+        pre_pipeline_2___Fourway_acc_ses2345={}
+        for ses in pre_pipeline_2___forceGreedy_list:
+            ID = pre_pipeline_2___forceGreedy_list[ses]
+            t=pd.read_csv(main_dir+f"logs/accTable_{ID}.csv")
+            pre_pipeline_2___Fourway_acc_ses2345[ses] = t[axis]
+
+        pre_pipeline_2___Fourway_acc_ses2345['ses1']=list(Fourway_acc_ses1.values())
+        pre_pipeline_2___Fourway_acc_ses2345
+
+        # 画图
+        plt.figure()
+        pre_pipeline_2___Fourway_acc_ses2345_mean=[]
+        sesNumber=len(pre_pipeline_2___Fourway_acc_ses2345)
+        for ses in range(1,sesNumber+1):
+            t=pre_pipeline_2___Fourway_acc_ses2345[f'ses{ses}']
+            pre_pipeline_2___Fourway_acc_ses2345_mean.append(np.mean(t))
+            plt.scatter([ses]*len(t),t,c='r',s=10)
+        plt.plot(np.arange(1,sesNumber+1),pre_pipeline_2___Fourway_acc_ses2345_mean,c='r',label=f"{axis} new mask")
+
+
+
+        # 合并 pre-pipeline 3 和 pre-pipeline 1 为一条线
+        pre_pipeline_1___Fourway_acc_ses2345={}
+        for ses in pre_pipeline_1___compare_forceGreedy_list:
+            ID = pre_pipeline_1___compare_forceGreedy_list[ses]
+            t=pd.read_csv(main_dir+f"logs/accTable_{ID}.csv")
+            pre_pipeline_1___Fourway_acc_ses2345[ses]=t[axis]
+        pre_pipeline_1___Fourway_acc_ses2345['ses1']=list(Fourway_acc_ses1.values())
+
+
+        # 画图
+        pre_pipeline_1___Fourway_acc_ses2345_mean=[]
+        for ses in range(1,sesNumber+1):
+            t=pre_pipeline_1___Fourway_acc_ses2345[f'ses{ses}']
+            pre_pipeline_1___Fourway_acc_ses2345_mean.append(np.mean(t))
+            plt.scatter([ses+offset]*len(t),t,c='b',s=10)
+        plt.plot(np.arange(1,sesNumber+1),pre_pipeline_1___Fourway_acc_ses2345_mean,c='b',label=f"{axis} ses1 mask")
+
+        plt.legend()
+        plt.title(axis)
+        plt.ylim(0,1)
+        # 将两条线合并在一起。
+    for axis in ['Fourway_acc','AB_acc','CD_acc','AC_acc','AD_acc','BC_acc','BD_acc']:
+        getSummaryPlotFor(axis)
+
+
+
+    def getSummaryPlotFor(axis,offset=0.2,color='b'): #axis can be 'Fourway_acc' or "AB_acc" etc
+        # 合并 pre-pipeline 3 和 pre-pipeline 2 为一条线
+
+        # 这是ses1的一个点
+        Fourway_acc_ses1={}
+        for curr_run,run in enumerate(pre_pipeline_3___ses1_LOO_Greedy_and_trainTest_list):
+            ID = pre_pipeline_3___ses1_LOO_Greedy_and_trainTest_list[run]
+            t=pd.read_csv(main_dir+f"logs/accTable_{ID}.csv")
+            Fourway_acc_ses1[run]=t.loc[curr_run,axis]
+        Fourway_acc_ses1
+
+    #     # 这是 ses 2345
+    #     pre_pipeline_2___Fourway_acc_ses2345={}
+    #     for ses in pre_pipeline_2___forceGreedy_list:
+    #         ID = pre_pipeline_2___forceGreedy_list[ses]
+    #         t=pd.read_csv(main_dir+f"logs/accTable_{ID}.csv")
+    #         pre_pipeline_2___Fourway_acc_ses2345[ses] = t[axis]
+
+    #     pre_pipeline_2___Fourway_acc_ses2345['ses1']=list(Fourway_acc_ses1.values())
+    #     pre_pipeline_2___Fourway_acc_ses2345
+
+    #     # 画图
+    #     pre_pipeline_2___Fourway_acc_ses2345_mean=[]
+    #     sesNumber=len(pre_pipeline_2___Fourway_acc_ses2345)
+    #     for ses in range(1,sesNumber+1):
+    #         t=pre_pipeline_2___Fourway_acc_ses2345[f'ses{ses}']
+    #         pre_pipeline_2___Fourway_acc_ses2345_mean.append(np.mean(t))
+    #         plt.scatter([ses+offset]*len(t),t,c=color,s=10)
+    #     plt.plot(np.arange(1,sesNumber+1),pre_pipeline_2___Fourway_acc_ses2345_mean,label=f"{axis} new mask",c=color)
+
+
+
+        # 合并 pre-pipeline 3 和 pre-pipeline 1 为一条线
+        pre_pipeline_1___Fourway_acc_ses2345={}
+        for ses in pre_pipeline_1___compare_forceGreedy_list:
+            ID = pre_pipeline_1___compare_forceGreedy_list[ses]
+            t=pd.read_csv(main_dir+f"logs/accTable_{ID}.csv")
+            pre_pipeline_1___Fourway_acc_ses2345[ses]=t[axis]
+        pre_pipeline_1___Fourway_acc_ses2345['ses1']=list(Fourway_acc_ses1.values())
+
+
+        # 画图
+        pre_pipeline_1___Fourway_acc_ses2345_mean=[]
+        sesNumber=len(pre_pipeline_1___Fourway_acc_ses2345)
+        for ses in range(1,sesNumber+1):
+            t=pre_pipeline_1___Fourway_acc_ses2345[f'ses{ses}']
+            pre_pipeline_1___Fourway_acc_ses2345_mean.append(np.mean(t))
+            plt.scatter([ses+offset]*len(t),t,c=color,s=10)
+        plt.plot(np.arange(1,sesNumber+1),pre_pipeline_1___Fourway_acc_ses2345_mean,label=f"{axis} ses1 mask",c=color)
+
+        plt.legend()
+        plt.title(axis)
+        plt.ylim(0,1)
+        # 将两条线合并在一起。
+
+    getSummaryPlotFor('AB_acc',offset=0.0,color='b')
+    getSummaryPlotFor('CD_acc',offset=0.2,color='r')
+    plt.title("AB_clf and CD_clf using ses1 mask")
+
+    getSummaryPlotFor('AC_acc',offset=0.0,color='red')
+    getSummaryPlotFor('AD_acc',offset=0.1,color='orange')
+    getSummaryPlotFor('BC_acc',offset=0.2,color='black')
+    getSummaryPlotFor('BD_acc',offset=0.3,color='blue')
+
+    plt.title("AC AD BC BD comparison")
