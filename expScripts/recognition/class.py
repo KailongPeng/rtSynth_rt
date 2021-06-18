@@ -44,7 +44,7 @@ def Class(brain_data,behav_data):
 
 def getMask(topN, cfg):
     for pn, parc in enumerate(topN):
-        _mask = nib.load(f"/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/{subject}/ses1/recognition/mask/GMschaefer_{parc}")
+        _mask = nib.load(f"/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/{subject}/ses1/recognition/mask/GMschaefer_{parc}")
         # schaefer_56.nii.gz
         aff = _mask.affine
         _mask = _mask.get_data()
