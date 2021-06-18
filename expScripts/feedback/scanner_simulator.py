@@ -1,7 +1,7 @@
 
 import os
 import sys
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
 import argparse
 import numpy as np
 import nibabel as nib

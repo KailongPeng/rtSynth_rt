@@ -7,7 +7,7 @@
 toml=$1
 hemis="lh rh"
 dataSource=realtime
-recogExpFolder=/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/
+recogExpFolder=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/
 
 roiloc=wang
 for num in {1..50};

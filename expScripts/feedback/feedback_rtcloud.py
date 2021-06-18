@@ -9,7 +9,7 @@ steps:
 '''
 
 import os, glob, time, socket,shutil, sys,struct,math
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
 import nibabel as nib
 from nibabel.nicom import dicomreaders
 import numpy as np
@@ -36,7 +36,7 @@ from rtCommon.imageHandling import readRetryDicomFromFileInterface, getDicomFile
 argParser = argparse.ArgumentParser()
 argParser.add_argument('--config', '-c', default='sub001.ses2.toml', type=str, help='experiment file (.json or .toml)')
 args = argParser.parse_args()
-from rtCommon.cfg_loading import mkdir,cfg_loading
+from cfg_loading import mkdir,cfg_loading
 cfg = cfg_loading(args.config)
 
 
@@ -151,7 +151,7 @@ for this_TR in np.arange(cfg.num_total_TRs):
 	## - load the saved model and apply it on the new coming dicom file.
 	# model_dir='/gpfs/milgram/project/turk-browne/projects/rtcloud_kp/subjects/clf/'
 
-	model_path=f"{cfg.subjects_dir}/{cfg.subjectName}/{cfg.session}_recognition/clf/" #/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/pilot_sub001/ses1_recognition/clf
+	model_path=f"{cfg.subjects_dir}/{cfg.subjectName}/{cfg.session}_recognition/clf/" #/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/pilot_sub001/ses1_recognition/clf
 	clf1 = joblib.load(model_path+'pilot_sub001_benchtable_tablebed.joblib') 
 	clf2 = joblib.load(model_path+'pilot_sub001_benchtable_tablechair.joblib') 
 

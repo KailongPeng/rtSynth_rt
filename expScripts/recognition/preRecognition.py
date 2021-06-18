@@ -13,19 +13,19 @@ usage example:
 '''
 import sys,os
 if 'watts' in os.getcwd():
-    sys.path.append("/home/watts/Desktop/ntblab/kailong/rtSynth_rt/")
+    sys.path.append("/home/watts/Desktop/ntblab/kailong/rt-cloud/projects/rtSynth_rt/")
 elif 'kailong' in os.getcwd():
-    sys.path.append("/Users/kailong/Desktop/rtEnv/rtSynth_rt/")
+    sys.path.append("/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/")
 elif 'milgram' in os.getcwd():
-    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
 
 import argparse
 import numpy as np
 import pandas as pd
 if 'watts' in os.getcwd():
-    main_dir = "/home/watts/Desktop/ntblab/kailong/rtcloud_rt/" # main_dir = "/home/watts/Desktop/ntblab/kailong/rtcloud_kp/"
+    main_dir = "/home/watts/Desktop/ntblab/kailong/rt-cloud/projects/rtcloud_rt/" # main_dir = "/home/watts/Desktop/ntblab/kailong/rtcloud_kp/"
 else:
-    main_dir="/Users/kailong/Desktop/rtEnv/rtSynth_rt/"
+    main_dir="/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/"
 
 sys.path.append(main_dir)
 

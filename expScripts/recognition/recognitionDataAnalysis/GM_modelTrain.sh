@@ -10,8 +10,8 @@ module load FSL
 . ${FSLDIR}/etc/fslconf/fsl.sh
 set -e
 
-code_dir=/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/
-raw_dir=/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/
+code_dir=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/
+raw_dir=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/
 cd ${code_dir}
 
 sub=$1 # rtSynth_sub001 rtSynth_sub001_ses5 rtSynth_sub001 rtSynth_sub002_ses1
@@ -44,17 +44,17 @@ bash ${code_dir}change2nifti.sh ${sub}
 python -u -c "from GM_modelTrain_functions import find_T1_in_niiFolder ; find_T1_in_niiFolder(${T1_ID},${T2_ID},'${sub}')"
 
 # 运行freesurfer
-cd /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/
+cd /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/
 sbatch reconsurf.sh ${subjectName}
 
 # 等待 freesurfer 完成
-anatPath=/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/${subjectName}/ses1/anat/
+anatPath=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/${subjectName}/ses1/anat/
 cd ${code_dir}
 echo python -u -c "from GM_modelTrain_functions import wait; wait('${anatPath}done_${subjectName}.txt')"
 python -u -c "from GM_modelTrain_functions import wait; wait('${anatPath}done_${subjectName}.txt')"
 
 # SUMA_Make_Spec_FS.sh
-cd /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/
+cd /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/
 sbatch SUMA_Make_Spec_FS.sh ${subjectName}
 
 # 等待 SUMA_Make_Spec_FS 完成
@@ -63,15 +63,15 @@ echo python -u -c "from GM_modelTrain_functions import wait; wait('${anatPath}SU
 python -u -c "from GM_modelTrain_functions import wait; wait('${anatPath}SUMAdone_${subjectName}.txt')"
 
 # 获得mask
-cd /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/
+cd /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/
 sbatch makeGreyMatterMask.sh ${subjectName} ${scan_asTemplate}
 
-# 产生的mask 类似 /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/sub001/ses1/anat/gm_func.nii.gz
+# 产生的mask 类似 /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/sub001/ses1/anat/gm_func.nii.gz
 cd ${code_dir}
-echo python -u -c "from GM_modelTrain_functions import wait; wait('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/${subjectName}/ses${ses}/anat/gm_func.nii.gz')"
-python -u -c "from GM_modelTrain_functions import wait; wait('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/${subjectName}/ses${ses}/anat/gm_func.nii.gz')"
+echo python -u -c "from GM_modelTrain_functions import wait; wait('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/${subjectName}/ses${ses}/anat/gm_func.nii.gz')"
+python -u -c "from GM_modelTrain_functions import wait; wait('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/${subjectName}/ses${ses}/anat/gm_func.nii.gz')"
 
 # 下一步是 greedy 以及 训练模型
-cd /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/
+cd /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/
 echo python -u expScripts/recognition/8runRecgnitionModelTraining.py -c ${subjectName}.ses${ses}.toml --scan_asTemplate ${scan_asTemplate}
 python -u expScripts/recognition/8runRecgnitionModelTraining.py -c ${subjectName}.ses${ses}.toml --scan_asTemplate ${scan_asTemplate} --skipPre

@@ -15,18 +15,18 @@ steps:
     convert the standard brain to the individual functional tempalte 
 
 '''
-module load AFNI/2018.08.28
-module load FSL
+# module load AFNI/2018.08.28
+# module load FSL
 # which fsl:   /gpfs/milgram/apps/hpc.rhel7/software/FSL/6.0.3-centos7_64/bin/fsl
 # source       /gpfs/milgram/apps/hpc.rhel7/software/FSL/6.0.0-centos7_64/etc/fslconf/fsl.sh
 # module load miniconda
-source activate /gpfs/milgram/project/turk-browne/users/kp578/CONDA/rtcloud
-
+# source activate /gpfs/milgram/project/turk-browne/users/kp578/CONDA/rtcloud
+cd /gpfs/milgram/project/turk-browne/projects/rt-cloud ; module load AFNI ; module load FSL ; source /gpfs/milgram/apps/hpc.rhel7/software/FSL/6.0.3-centos7_64/etc/fslconf/fsl.sh ; module load dcm2niix ; . /gpfs/milgram/apps/hpc.rhel7/software/Python/Anaconda3/etc/profile.d/conda.sh ; conda activate /gpfs/milgram/project/turk-browne/kp578/conda_envs/rtSynth_rt
 
 set -e #stop immediately encountering error
 mkdir -p ./logs/
 sub=$1 #sub=sub001
-recognition_dir=$2 #recognition_dir=/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/sub001/ses1/recognition/
+recognition_dir=$2 #recognition_dir=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/sub001/ses1/recognition/
 mask_dir=${recognition_dir}mask/
 mkdir -p ${mask_dir} # save the output files in the current folder
 
@@ -35,7 +35,7 @@ STAND=/gpfs/milgram/apps/hpc.rhel7/software/FSL/5.0.10-centos7_64/data/standard/
 
 
 # ROIpath=/gpfs/milgram/scratch/turk-browne/tsy6/CBIG/stable_projects/brain_parcellation/Schaefer2018_LocalGlobal/Parcellations/MNI
-ROIpath=/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/MNI
+ROIpath=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/MNI
 
 stand2funcDirectly=0
 if [ "$stand2funcDirectly" -eq 1 ]; then
@@ -99,7 +99,7 @@ for ROI in {1..300}; do
 done
 
 # GMINFUNC=${recognition_dir}../anat/gm_func.nii.gz
-GMINFUNC=/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/${sub}/ses1/anat/gm_func.nii.gz
+GMINFUNC=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/${sub}/ses1/anat/gm_func.nii.gz
 for ROI in {1..300}; do  
     OUTPUT=${mask_dir}/schaefer_${ROI}.nii.gz
     GMmasked_OUTPUT=${mask_dir}/GMschaefer_${ROI}.nii.gz

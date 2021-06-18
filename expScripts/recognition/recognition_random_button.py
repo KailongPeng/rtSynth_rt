@@ -14,11 +14,11 @@ import traceback,time
 
 import sys,os
 if 'watts' in os.getcwd():
-    sys.path.append("/home/watts/Desktop/ntblab/kailong/rtSynth_rt/")
+    sys.path.append("/home/watts/Desktop/ntblab/kailong/rt-cloud/projects/rtSynth_rt/")
 elif 'kailong' in os.getcwd():
-    sys.path.append("/Users/kailong/Desktop/rtEnv/rtSynth_rt/")
+    sys.path.append("/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/")
 elif 'milgram' in os.getcwd():
-    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
 
 import os
 from psychopy import visual, event, core, logging, gui, data, monitors
@@ -30,7 +30,7 @@ import pandas as pd
 import pylink
 import argparse
 import rtCommon.fmrisim as sim
-from rtCommon.cfg_loading import mkdir,cfg_loading
+from cfg_loading import mkdir,cfg_loading
 
 # imcode:
 # A: bed

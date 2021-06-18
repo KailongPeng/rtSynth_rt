@@ -42,8 +42,10 @@ if verbose:
 # import important modules
 import os,time
 import sys
-# sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+# sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/')
 sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/')
 import argparse
 import warnings
 import numpy as np
@@ -78,15 +80,12 @@ from rtCommon.utils import loadConfigFile, stringPartialFormat
 from rtCommon.clientInterface import ClientInterface
 from rtCommon.imageHandling import readRetryDicomFromDataInterface, convertDicomImgToNifti
 from rtCommon.dataInterface import DataInterface #added by QL
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/')
 from recognition_dataAnalysisFunctions import normalize,classifierProb
-
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/')
 
 
 # obtain the full path for the configuration toml file
 # defaultConfig = os.path.join(currPath, 'conf/sample.toml')
-defaultConfig = '/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/projects/rtSynth_rt/conf/'+"sub001.ses3.toml"
+defaultConfig = '/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/projects/rtSynth_rt/conf/'+"sub001.ses3.toml"
 
 
 def doRuns(cfg, dataInterface, subjInterface, webInterface):
@@ -334,8 +333,8 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
                 -prefix  {niiFileName}_aligned.nii \
                 {niiFileName}_reorient.nii"
 
-                # 3dvolreg -base /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/sub001/ses2/recognition/templateFunctionalVolume_converted.nii.gz -prefix test 001_000001_000150.nii
-                # fslreorient2std /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/sub001/ses2/recognition/templateFunctionalVolume_converted.nii.gz ref.nii.gz
+                # 3dvolreg -base /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/sub001/ses2/recognition/templateFunctionalVolume_converted.nii.gz -prefix test 001_000001_000150.nii
+                # fslreorient2std /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/sub001/ses2/recognition/templateFunctionalVolume_converted.nii.gz ref.nii.gz
                 # 001_000001_000150.nii
                 # Input: A-P R-L I-S
                 # Base:  R-L P-A I-S

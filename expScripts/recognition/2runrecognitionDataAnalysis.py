@@ -9,7 +9,7 @@ purpose
 
 import os
 import sys
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
 import argparse
 import numpy as np
 import nibabel as nib
@@ -35,10 +35,10 @@ argParser.add_argument('--skipPre', '-s', default=0, type=int, help='skip prepro
 argParser.add_argument('--scan_asTemplate', '-t', default=1, type=int, help="which scan's middle dicom as Template?")
 
 args = argParser.parse_args()
-from rtCommon.cfg_loading import mkdir,cfg_loading
+from cfg_loading import mkdir,cfg_loading
 cfg = cfg_loading(args.config)
 
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/')
 from recognition_dataAnalysisFunctions import recognition_preprocess,minimalClass,behaviorDataLoading,recognition_preprocess_2run # morphingTarget,classifierEvidence
 
 

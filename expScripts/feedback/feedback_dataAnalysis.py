@@ -133,7 +133,7 @@ def megaROIOverlapping():
 
 
 
-    os.chdir("/gpfs/milgram/pi/turk-browne/projects/rtSynth_rt/")
+    os.chdir("/gpfs/milgram/pi/turk-browne/projects/rt-cloud/projects/rtSynth_rt/")
     def findDir(path):
         from glob import glob
         # _path = glob(path)[0]+'/'
@@ -248,7 +248,7 @@ def megaROIOverlapping():
 
 
 
-    # cd /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/sub003/ses1/recognition/mask
+    # cd /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/sub003/ses1/recognition/mask
     # load_fsl
     # fslview_deprecated GMschaefer_8.nii.gz GMschaefer_159.nii.gz GMschaefer_160.nii.gz GMschaefer_163.nii.gz
     # 8 159 160 163
@@ -257,7 +257,7 @@ def megaROIOverlapping():
     def GreedySum(bestROIs=None,sub=None):
         import nibabel as nib
         import pandas as pd
-        workingDir=f"/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/{sub}/ses1/recognition/mask/"
+        workingDir=f"/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/{sub}/ses1/recognition/mask/"
         for pn, parc in enumerate(bestROIs):
             _mask = nib.load(workingDir+f"GMschaefer_{parc}")
             aff = _mask.affine
@@ -275,12 +275,12 @@ def megaROIOverlapping():
     bestROIs_allSes = ('8.nii.gz', '159.nii.gz', '235.nii.gz', '163.nii.gz', '271.nii.gz', '164.nii.gz', '258.nii.gz', '80.nii.gz', '218.nii.gz', '67.nii.gz', '211.nii.gz', '2.nii.gz', '220.nii.gz', '62.nii.gz', '160.nii.gz', '22.nii.gz', '79.nii.gz', '8.nii.gz', '159.nii.gz', '114.nii.gz', '235.nii.gz', '163.nii.gz', '164.nii.gz', '151.nii.gz', '80.nii.gz', '112.nii.gz', '126.nii.gz', '67.nii.gz', '209.nii.gz', '211.nii.gz', '205.nii.gz', '2.nii.gz', '39.nii.gz', '160.nii.gz', '244.nii.gz', '8.nii.gz', '159.nii.gz', '195.nii.gz', '163.nii.gz', '164.nii.gz', '151.nii.gz', '80.nii.gz', '58.nii.gz', '67.nii.gz', '209.nii.gz', '211.nii.gz', '150.nii.gz', '160.nii.gz', '246.nii.gz', '8.nii.gz', '223.nii.gz', '159.nii.gz', '163.nii.gz', '271.nii.gz', '80.nii.gz', '126.nii.gz', '67.nii.gz', '146.nii.gz', '2.nii.gz', '160.nii.gz', '246.nii.gz', '22.nii.gz', '244.nii.gz', '30.nii.gz', '8.nii.gz', '86.nii.gz', '159.nii.gz', '195.nii.gz', '163.nii.gz', '56.nii.gz', '77.nii.gz', '76.nii.gz', '263.nii.gz', '62.nii.gz', '281.nii.gz', '160.nii.gz', '30.nii.gz', '79.nii.gz')
     GreedySum(bestROIs=bestROIs_allSes,sub='sub003')
     
-    # cd /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/sub003/ses1/recognition/mask
+    # cd /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/sub003/ses1/recognition/mask
     # fslview_deprecated GreedySum.nii.gz ../WANGinFUNC.nii.gz templateFunctionalVolume_bet.nii.gz ../templateFunctionalVolume_bet.nii.gz
 
 def log_analysis():
     
-   # cd /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/sub003/ses1/recognition/mask
+   # cd /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/sub003/ses1/recognition/mask
    # load_fsl
    # fslview_deprecated GMschaefer_8.nii.gz GMschaefer_159.nii.gz GMschaefer_160.nii.gz GMschaefer_163.nii.gz
    8 159 160 163
@@ -428,7 +428,7 @@ def megaROIOverlapping():
 
 
 
-   os.chdir("/gpfs/milgram/pi/turk-browne/projects/rtSynth_rt/")
+   os.chdir("/gpfs/milgram/pi/turk-browne/projects/rt-cloud/projects/rtSynth_rt/")
    def findDir(path):
        from glob import glob
        # _path = glob(path)[0]+'/'
@@ -610,7 +610,7 @@ def megaROIOverlapping():
 
 
 
-   # cd /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/sub003/ses1/recognition/mask
+   # cd /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/sub003/ses1/recognition/mask
    # load_fsl
    # fslview_deprecated GMschaefer_8.nii.gz GMschaefer_159.nii.gz GMschaefer_160.nii.gz GMschaefer_163.nii.gz
    # 8 159 160 163
@@ -653,9 +653,9 @@ def run12_34_data_quality(cfg,testRun=None,recordingTxt=None,forceGreedy="",Head
         return int(np.ceil(n_vox * prop))
 
     if 'milgram' in os.getcwd():
-        main_dir='/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/'
+        main_dir='/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/'
     else:
-        main_dir='/Volumes/GoogleDrive/My Drive/Turk_Browne_Lab/rtcloud_kp/'
+        main_dir='/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/'
 
     working_dir=main_dir
     os.chdir(working_dir)
@@ -815,7 +815,7 @@ def run12_34_data_quality(cfg,testRun=None,recordingTxt=None,forceGreedy="",Head
 def compareHeadRuns_and_TailRuns():
     # 这个函数利用run12_34_data_quality的结果来画图。目的是比较每一个feedback session的时候的前两个recognition run和后两个recognition run的data quality
     import sys
-    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/')
+    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/')
     from rtCommon.cfg_loading import mkdir,cfg_loading
     from recognition_dataAnalysisFunctions import normalize
     import matplotlib.pyplot as plt

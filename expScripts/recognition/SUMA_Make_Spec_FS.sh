@@ -10,7 +10,7 @@ module load FreeSurfer/6.0.0
 # echo $FREESURFER_HOME # /gpfs/milgram/apps/hpc.rhel7/software/FreeSurfer/6.0.0
 
 subject=$1
-anatPath=/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/${subject}/ses1/anat/
+anatPath=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/${subject}/ses1/anat/
 subjectFolder=${anatPath}freesurfer/${subject}/
 
 cd ${subjectFolder}

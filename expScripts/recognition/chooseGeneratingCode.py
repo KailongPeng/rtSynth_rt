@@ -14,9 +14,9 @@ import sys
 import argparse
 import numpy as np
 if 'milgram' in os.getcwd():
-    main_dir = "/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/" # main_dir = "/home/watts/Desktop/ntblab/kailong/rtSynth_rt/"
+    main_dir = "/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/" # main_dir = "/home/watts/Desktop/ntblab/kailong/rtSynth_rt/"
 else:
-    main_dir="/Users/kailong/Desktop/rtEnv/rtSynth_rt/"
+    main_dir="/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/"
 sys.path.append(main_dir)
 
 import rtCommon.utils as utils

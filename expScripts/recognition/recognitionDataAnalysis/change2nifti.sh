@@ -7,8 +7,8 @@
 module load dcm2niix
 pwd=$(pwd)
 sess_ID=$1
-export dcm_dir=/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/${sess_ID}/SCANS/
-export output_dir=/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/${sess_ID}/nifti/
+export dcm_dir=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/${sess_ID}/SCANS/
+export output_dir=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/${sess_ID}/nifti/
 mkdir -p $output_dir
 cd $dcm_dir
 

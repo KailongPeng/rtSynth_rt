@@ -48,10 +48,10 @@ import shutil
 import pandas as pd
 # from import convertDicomFileToNifti
 from rtCommon.imageHandling import convertDicomImgToNifti, readDicomFromFile
-from rtCommon.cfg_loading import mkdir,cfg_loading
+from cfg_loading import mkdir,cfg_loading
 
 # setting up code testing environment: 
-# from rtCommon.cfg_loading import mkdir,cfg_loading ;cfg = cfg_loading('pilot_sub001.ses1.toml')
+# from cfg_loading import mkdir,cfg_loading ;cfg = cfg_loading('pilot_sub001.ses1.toml')
 
 def recognition_preprocess(cfg,scan_asTemplate): 
     '''
@@ -286,7 +286,7 @@ def minimalClass(cfg,testRun=None,recordingTxt=None):
         return int(np.ceil(n_vox * prop))
 
     if 'milgram' in os.getcwd():
-        main_dir='/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/'
+        main_dir='/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/'
     else:
         main_dir='/Volumes/GoogleDrive/My Drive/Turk_Browne_Lab/rtcloud_kp/'
 
@@ -543,7 +543,7 @@ def compareScore(cfg,testRun=None):
     def red_vox(n_vox, prop=0.1):
         return int(np.ceil(n_vox * prop))
     if 'milgram' in os.getcwd():
-        main_dir='/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/'
+        main_dir='/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/'
     else:
         main_dir='/Volumes/GoogleDrive/My Drive/Turk_Browne_Lab/rtcloud_kp/'
     working_dir=main_dir
@@ -804,7 +804,7 @@ def fetchXnat(sess_ID):
     "rtSynth_sub001_ses2"
     import subprocess
     from subprocess import call
-    rawPath="/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/"
+    rawPath="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/"
     proc = subprocess.Popen([f'sbatch {rawPath}../fetchXNAT.sh {sess_ID}'],shell=True)
 
     Wait(f"{rawPath}{sess_ID}.zip")
@@ -837,7 +837,7 @@ def greedyMask(cfg,N=78): # N used to be 31, 25
     import numpy as np
     import nibabel as nib
     import sys
-    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
     import time
     import pandas as pd
     from sklearn.linear_model import LogisticRegression
@@ -864,7 +864,7 @@ def greedyMask(cfg,N=78): # N used to be 31, 25
     '''
 
 
-    from rtCommon.cfg_loading import mkdir,cfg_loading
+    from cfg_loading import mkdir,cfg_loading
     # config="sub001.ses1.toml"
     # cfg = cfg_loading(config)
 

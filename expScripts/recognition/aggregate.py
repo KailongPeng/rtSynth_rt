@@ -15,7 +15,7 @@ in this newly combined larger mask. An example run of this is as follows:
 sbatch aggregate.sh 0111171 neurosketch schaefer2018 15
 '''
 
-# test: sbatch /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/aggregate.sh sub001.ses1.toml realtime schaefer 299
+# test: sbatch /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/aggregate.sh sub001.ses1.toml realtime schaefer 299
 
 import os
 print(f"conda env={os.environ['CONDA_DEFAULT_ENV']}")
@@ -27,7 +27,7 @@ import sys
 import time
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
 import argparse
 import scipy.io as sio
 from subprocess import call
@@ -41,7 +41,7 @@ from nilearn.image import new_img_like
 # from rtCommon.fileClient import FileInterface
 # import rtCommon.projectUtils as projUtils
 # from rtCommon.imageHandling import readRetryDicomFromFileInterface, getDicomFileName, convertDicomImgToNifti
-from rtCommon.cfg_loading import mkdir,cfg_loading
+from cfg_loading import mkdir,cfg_loading
 
 
 '''
@@ -315,8 +315,8 @@ ROILIST.to_csv(f"{cfg.recognition_dir}classRegions/{roiloc}_top{N}.csv")
 def plot():
         
     import sys
-    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
-    from rtCommon.cfg_loading import mkdir,cfg_loading
+    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
+    from cfg_loading import mkdir,cfg_loading
     from glob import glob
 
     toml="sub001.ses1.toml"

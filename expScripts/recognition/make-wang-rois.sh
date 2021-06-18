@@ -15,16 +15,19 @@ steps:
     convert the standard brain to the individual functional tempalte 
     
 '''
-module load AFNI/2018.08.28
-module load FSL
-source /gpfs/milgram/apps/hpc.rhel7/software/FSL/6.0.0-centos7_64/etc/fslconf/fsl.sh
-module load miniconda
-source activate /gpfs/milgram/project/turk-browne/users/kp578/CONDA/rtcloud
+# module load AFNI/2018.08.28
+# module load FSL
+# source /gpfs/milgram/apps/hpc.rhel7/software/FSL/6.0.0-centos7_64/etc/fslconf/fsl.sh
+# module load miniconda
+# source activate /gpfs/milgram/project/turk-browne/users/kp578/CONDA/rtcloud
+cd /gpfs/milgram/project/turk-browne/projects/rt-cloud ; module load AFNI ; module load FSL ; source /gpfs/milgram/apps/hpc.rhel7/software/FSL/6.0.3-centos7_64/etc/fslconf/fsl.sh ; module load dcm2niix ; . /gpfs/milgram/apps/hpc.rhel7/software/Python/Anaconda3/etc/profile.d/conda.sh ; conda activate /gpfs/milgram/project/turk-browne/kp578/conda_envs/rtSynth_rt
+
+
 
 set -e #stop immediately encountering error
 mkdir -p ./logs/
 sub=$1 #sub001
-recognition_dir=$2 #/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/sub001/ses1/recognition/
+recognition_dir=$2 #/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/sub001/ses1/recognition/
 mask_dir=${recognition_dir}mask/
 mkdir -p ${mask_dir} # save the output files in the current folder
 

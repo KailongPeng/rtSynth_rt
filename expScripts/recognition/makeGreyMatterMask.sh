@@ -13,10 +13,10 @@ module load FreeSurfer/6.0.0
 subject=$1
 scan_asTemplate=$2
 
-anatPath=/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/${subject}/ses1/anat/
+anatPath=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/${subject}/ses1/anat/
 subjectFolder=${anatPath}freesurfer/${subject}/
 
-GreyMatterMask=/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/${subject}/ses1/GreyMatterMask/
+GreyMatterMask=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/${subject}/ses1/GreyMatterMask/
 mkdir -p ${GreyMatterMask}
 cd ${GreyMatterMask}
 
@@ -64,12 +64,12 @@ align_epi_anat.py -dset1 anat_stripped+orig -dset2 ${subject}_SurfVol_stripped_s
 
 # 将已经搞好的在T1 space的灰质mask转移到functional space里面去
 # processedEPI=/gpfs/milgram/project/turk-browne/projects/rtTest/wang2014/${subject}/neurosketch_recognition_run_1_bet.nii.gz # processedEPI+orig 是一个处理好的functional 数据
-processedEPI=/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/subjects/${subject}/ses1/recognition/templateFunctionalVolume.nii 
+processedEPI=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/${subject}/ses1/recognition/templateFunctionalVolume.nii 
 processedEPI_bet=../anat/functional_bet.nii
 if test -f "$processedEPI"; then
     echo "$processedEPI exists."
 else
-    python -u /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py -c ${subject}.ses1.toml --scan_asTemplate ${scan_asTemplate} --preprocessOnly
+    python -u /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py -c ${subject}.ses1.toml --scan_asTemplate ${scan_asTemplate} --preprocessOnly
 fi
 
 bet ${processedEPI} ${processedEPI_bet}

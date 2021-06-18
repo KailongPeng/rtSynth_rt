@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
 import argparse
 import matplotlib.pyplot as plt
 import numpy as np
@@ -31,7 +31,7 @@ import shutil
 import pandas as pd
 # from import convertDicomFileToNifti
 from rtCommon.imageHandling import convertDicomImgToNifti, readDicomFromFile
-from rtCommon.cfg_loading import mkdir,cfg_loading
+from cfg_loading import mkdir,cfg_loading
 
 def save_obj(obj, name):
     with open(name + '.pkl', 'wb') as f:
