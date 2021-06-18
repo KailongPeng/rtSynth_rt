@@ -3,7 +3,7 @@
 
 #SBATCH --output=logs/class_LOO-%j.out
 #SBATCH --job-name class_LOO
-#SBATCH --partition=psych_day,psych_scavenge,psych_week,day,scavenge_all,week
+#SBATCH --partition=psych_day,psych_scavenge,day,scavenge_all,week,psych_gpu,gpu,scavenge,psych_week
 #SBATCH --time=1:00:00 #20:00:00
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kp578
