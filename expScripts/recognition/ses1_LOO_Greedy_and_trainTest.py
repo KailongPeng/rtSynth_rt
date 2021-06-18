@@ -1,6 +1,7 @@
 # coding=UTF-8
 import os
 import sys
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/')
 sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt')
 sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/')
 import argparse
