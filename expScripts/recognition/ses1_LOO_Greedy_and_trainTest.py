@@ -113,7 +113,7 @@ def greedyMask(cfg,N=78,LeaveOutRun=1,recordingTxt = "", tmp_folder=''): # N use
 
     imcodeDict={"A": "bed", "B": "Chair", "C": "table", "D": "bench"}
     if recordingTxt=='':
-        recordingTxt=f"{tmp_folder}/recording.txt"
+        recordingTxt=f"{cfg.projectDir}{tmp_folder}/recording.txt"
     def getMask(topN, cfg):
         for pn, parc in enumerate(topN):
             _mask = nib.load(f"{cfg.subjects_dir}{cfg.subjectName}/ses1/recognition/mask/GMschaefer_{parc}")
@@ -228,10 +228,49 @@ def greedyMask(cfg,N=78,LeaveOutRun=1,recordingTxt = "", tmp_folder=''): # N use
         f"{cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len(topN)}"
         )
 
-    # if os.path.exists(f"{cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{1}.pkl"):
-    #     print(f"{cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_1.pkl exists")
-    #     return recordingTxt
-    #     raise Exception('runned or running')
+    if os.path.exists(f"{cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{1}.pkl"):
+        print(f"{cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_1.pkl exists")
+
+
+        # when every mask has run, find the best mask and save as the chosenMask
+        roiloc="schaefer2018"
+        dataSource="realtime"
+        subjects=[cfg.subjectName]
+        N=N
+        GreedyBestAcc=np.zeros((len(subjects),N+1))
+        GreedyBestAcc[GreedyBestAcc==0]=None
+        for ii,subject in enumerate(subjects):
+            for len_topN_1 in range(N-1,0,-1):
+                try:
+                    # print(f"./{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len_topN_1}")
+                    di = load_obj(f"{cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len_topN_1}")
+                    GreedyBestAcc[ii,len_topN_1-1] = di['bestAcc']
+                except:
+                    pass
+        GreedyBestAcc=GreedyBestAcc.T
+
+        # import matplotlib.pyplot as plt
+        # plt.imshow(GreedyBestAcc)
+        # _=plt.figure()
+        # for i in range(GreedyBestAcc.shape[0]):
+        #     plt.scatter([i]*GreedyBestAcc.shape[1],GreedyBestAcc[i],c='g',s=2)
+        # plt.plot(np.arange(GreedyBestAcc.shape[0]),np.nanmean(GreedyBestAcc,axis=1))
+
+        performance_mean = np.nanmean(GreedyBestAcc,axis=1)
+        bestID=np.where(performance_mean==max(performance_mean))[0][0]
+        di = load_obj(f"{cfg.projectDir}/{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{bestID+1}")
+        print(f"bestID={bestID}; best Acc = {di['bestAcc']}")
+        print(f"bestROIs={di['bestROIs']}")
+        
+        append_file(recordingTxt,f"bestID={bestID}; best Acc = {di['bestAcc']}")
+        append_file(recordingTxt,f"bestROIs={di['bestROIs']}")
+
+        mask = getMask(di['bestROIs'],cfg)
+        np.save(f"{cfg.recognition_dir}chosenMask_leave_{LeaveOutRun}_out.npy",mask)
+        
+        
+        return recordingTxt
+        # raise Exception('runned or running')
 
     # N-1
     def next(topN):
@@ -247,7 +286,7 @@ def greedyMask(cfg,N=78,LeaveOutRun=1,recordingTxt = "", tmp_folder=''): # N use
             tmpFiles=[]
             while os.path.exists(f"{cfg.projectDir}{tmp_folder}/holdon.npy"):
                 time.sleep(10)
-                print(f"sleep for 10s ; waiting for ./{tmp_folder}/holdon.npy to be deleted")
+                print(f"sleep for 10s ; waiting for {cfg.projectDir}{tmp_folder}/holdon.npy to be deleted")
             np.save(f"{cfg.projectDir}{tmp_folder}/holdon",1)
 
             # 对于每一个round，提交一个job array，然后等待这个job array完成之后再进行下一轮
@@ -325,7 +364,7 @@ def greedyMask(cfg,N=78,LeaveOutRun=1,recordingTxt = "", tmp_folder=''): # N use
 
     performance_mean = np.nanmean(GreedyBestAcc,axis=1)
     bestID=np.where(performance_mean==max(performance_mean))[0][0]
-    di = load_obj(f"./{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{bestID+1}")
+    di = load_obj(f"{cfg.projectDir}/{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{bestID+1}")
     print(f"bestID={bestID}; best Acc = {di['bestAcc']}")
     print(f"bestROIs={di['bestROIs']}")
     
