@@ -25,4 +25,4 @@ forceGreedy=$5 # can be forceGreedy or compare_forceGreedy, if normal use _
 tmp_folder=$6 # can be _ or the actual folder
 
 
-python -u projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py -config ${config} --scan_asTemplate ${scan_asTemplate} --forceGreedy ${forceGreedy} --tmp_folder ${tmp_folder} --skipses1Greedy ${skipses1Greedy} --jobID ${SLURM_JOBID} --skipPre ${skipPre}
+python -u projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py --config ${config} --scan_asTemplate ${scan_asTemplate} --forceGreedy ${forceGreedy} --tmp_folder ${tmp_folder} --skipses1Greedy ${skipses1Greedy} --jobID ${SLURM_JOBID} --skipPre ${skipPre}
