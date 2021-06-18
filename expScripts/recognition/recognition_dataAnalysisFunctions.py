@@ -804,7 +804,7 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
     if tmp_folder=='':
         tmp_folder = f"tmp__folder_{time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time()))}" #tmp__folder
         mkdir(f"{cfg.projectDir}{tmp_folder}")
-    recordingTxt=f"{tmp_folder}/recording.txt"
+    recordingTxt=f"{cfg.projectDir}{tmp_folder}/recording.txt"
     save_obj([brain_data,behav_data],f"{cfg.projectDir}{tmp_folder}/{subject}_{dataSource}_{roiloc}_{N}") #{len(topN)}_{i}
 
     def wait(tmpFile):
@@ -885,7 +885,7 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
             tmpFiles=[]
             while os.path.exists(f"{cfg.projectDir}{tmp_folder}/holdon.npy"):
                 time.sleep(10)
-                print(f"sleep for 10s ; waiting for ./{tmp_folder}/holdon.npy to be deleted")
+                print(f"sleep for 10s ; waiting for {cfg.projectDir}/{tmp_folder}/holdon.npy to be deleted")
             np.save(f"{cfg.projectDir}{tmp_folder}/holdon",1)
 
             # 对于每一个round，提交一个job array，然后等待这个job array完成之后再进行下一轮
@@ -978,7 +978,7 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
 
     performance_mean = np.nanmean(GreedyBestAcc,axis=1)
     bestID=np.where(performance_mean==max(performance_mean))[0][0]
-    di = load_obj(f"./{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{bestID+1}")
+    di = load_obj(f"{cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{bestID+1}")
     print(f"bestID={bestID}; best Acc = {di['bestAcc']}")
     print(f"bestROIs={di['bestROIs']}")
     
@@ -1055,7 +1055,7 @@ def view_greedy_curve(tmp_folder="/gpfs/milgram/project/turk-browne/projects/rt-
         for len_topN_1 in range(N-1,0,-1):
             try:
                 # print(f"./{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len_topN_1}")
-                di = load_obj(f"{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len_topN_1}")
+                di = load_obj(f"{cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len_topN_1}")
                 GreedyBestAcc[ii,len_topN_1-1] = di['bestAcc']
             except:
                 pass
