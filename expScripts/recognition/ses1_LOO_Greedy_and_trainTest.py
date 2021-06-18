@@ -368,9 +368,9 @@ def minimalClass(cfg,LeaveOutRun=1,recordingTxt=""):
         return int(np.ceil(n_vox * prop))
 
     if 'milgram' in os.getcwd():
-        main_dir='/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/'
+        main_dir='/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/'
     else:
-        main_dir='/Volumes/GoogleDrive/My Drive/Turk_Browne_Lab/rtcloud_kp/'
+        main_dir='/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/'
 
     working_dir=main_dir
     os.chdir(working_dir)
