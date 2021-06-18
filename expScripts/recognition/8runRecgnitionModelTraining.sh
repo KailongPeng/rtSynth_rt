@@ -7,18 +7,22 @@
 #SBATCH --mem 4GB
 #SBATCH -n 1
 
+# sbatch projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.sh sub003.ses5.toml 1 compare_forceGreedy 1 tmp__folder_2021-06-14-16-58-20/ 1
+# 1:sub003.ses5.toml 
+# 2:1 
+# 3:1
+# 4:1
+# 5:compare_forceGreedy
+# 6:tmp__folder_2021-06-14-16-58-20/
+
 cd /gpfs/milgram/project/turk-browne/projects/rt-cloud ; module load AFNI ; module load FSL ; source /gpfs/milgram/apps/hpc.rhel7/software/FSL/6.0.3-centos7_64/etc/fslconf/fsl.sh ; module load dcm2niix ; . /gpfs/milgram/apps/hpc.rhel7/software/Python/Anaconda3/etc/profile.d/conda.sh ; conda activate /gpfs/milgram/project/turk-browne/kp578/conda_envs/rtSynth_rt
 
-toml=$1 # sub002.ses5.toml
-scan_asTemplate=$2 # 1
-forceGreedy=$3 # 1
-tmp_folder=$4
-skipGreedy=$5 # 1 is skipping 0 is not skipping
-if [ "$forceGreedy" == "1" ]; then
-    echo "forceGreedy"
-    python -u projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py -c $toml --scan_asTemplate $scan_asTemplate --skipPre --forceGreedy --tmp_folder $tmp_folder
-else
-    echo "not forceGreedy"
-    python -u projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py -c $toml --scan_asTemplate $scan_asTemplate --skipGreedy ${skipGreedy}
-fi
+config=$1 # sub002.ses5.toml
+scan_asTemplate=$2 # 1 or other number
+skipses1Greedy=$3 # 1 is skipping 0 is not skipping
+skipPre=$4 # i is skipping 0 is not skipping
+forceGreedy=$5 # can be forceGreedy or compare_forceGreedy, if normal use _
+tmp_folder=$6 # can be _ or the actual folder
 
+
+python -u projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py -config ${config} --scan_asTemplate ${scan_asTemplate} --forceGreedy ${forceGreedy} --tmp_folder ${tmp_folder} --skipses1Greedy ${skipses1Greedy} --jobID ${SLURM_JOBID} --skipPre ${skipPre}
