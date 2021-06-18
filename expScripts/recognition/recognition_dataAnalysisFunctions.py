@@ -921,11 +921,11 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
                     skip_flag+=1
 
             if skip_flag!=(i+1): # 如果有一个不存在，就需要跑一跑
-                command=f'sbatch --array=1-{i+1} {cfg.recognition_expScripts_dir}class.sh ./{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len(topN)}_'
+                command=f'sbatch --array=1-{i+1} {cfg.recognition_expScripts_dir}class.sh {cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len(topN)}_'
                 print(command)
                 proc = subprocess.Popen([command], shell=True) # sl_result = Class(_runs, bcvar) 
             else:
-                command=f'sbatch --array=1-{i+1} {cfg.recognition_expScripts_dir}class.sh ./{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len(topN)}_'
+                command=f'sbatch --array=1-{i+1} {cfg.recognition_expScripts_dir}class.sh {cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len(topN)}_'
                 print(f"skip {command}")
 
             os.remove(f"{cfg.projectDir}{tmp_folder}/holdon.npy")
