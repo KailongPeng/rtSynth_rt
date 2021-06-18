@@ -525,7 +525,7 @@ def minimalClass(cfg,testRun=None,recordingTxt=None,forceGreedy="_"):
         
         for TwoWay_clf in ["AB","CD","AC","AD","BC","BD"]:
             
-            accTable.loc[curr_testRun,TwoWay_clf+'_acc']=accs[cfg.twoWayClfDict[TwoWay_clf]]
+            accTable.loc[curr_testRun,TwoWay_clf+'_acc']=accs[cfg.twoWayClfDict[TwoWay_clf][0]]
             print(f"accTable={accTable}")
 
         print(f"testRun = {testRun} : average 2 way clf accuracy={np.mean(list(accs.values()))}")
