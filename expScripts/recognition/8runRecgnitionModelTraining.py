@@ -45,20 +45,22 @@ def load_obj(name):
 
 argParser = argparse.ArgumentParser()
 argParser.add_argument('--config', '-c', default='sub001.ses1.toml', type=str, help='experiment file (.json or .toml)')
-argParser.add_argument('--skipPre', '-s', default=False, action='store_true', help='skip preprocess or not')
-argParser.add_argument('--skipGreedy', '-g', default=0, type=int, help='skip greedy or not') #1 is skip 0 is not skip
-argParser.add_argument('--forceGreedy', default=False, action='store_true', help='whether to force Greedy search in current session')
+argParser.add_argument('--skipPre', '-s', default=0, type=int, help='skip preprocess or not')
+argParser.add_argument('--skipses1Greedy', '-g', default=0, type=int, help='skip greedy or not') #1 is skip 0 is not skip
+argParser.add_argument('--forceGreedy', default='_', type=str, help='whether to force Greedy search in current session, can be compare_forceGreedy , forceGreedy or _')
 argParser.add_argument('--testRun', '-t', default=None, type=int, help='testRun, can be [None,1,2,3,4,5,6,7,8]')
 argParser.add_argument('--scan_asTemplate', '-a', default=1, type=int, help="which scan's middle dicom as Template?")
-argParser.add_argument('--preprocessOnly', default=False, action='store_true', help='whether to only do preprocess and skip everything else')
+argParser.add_argument('--preprocessOnly', default=0, type=int, help='whether to only do preprocess and skip everything else')
 argParser.add_argument('--tmp_folder', default='' , type=str, help='tmp_folder')
+argParser.add_argument('--jobID', default='' , type=str, help='jobID')
+
 
 
 args = argParser.parse_args()
 from cfg_loading import mkdir,cfg_loading
 # config="sub001.ses2.toml"
 cfg = cfg_loading(args.config)
-
+cfg.jobID=args.jobID
 
 from recognition_dataAnalysisFunctions import recognition_preprocess,minimalClass,behaviorDataLoading,greedyMask,normalize #,classifierEvidence
 def wait(waitfor, delay=1):
@@ -67,7 +69,6 @@ def wait(waitfor, delay=1):
         print('waiting for {}'.format(waitfor))
 
 recordingTxt=f"{cfg.subjects_dir}{cfg.subjectName}/ses{cfg.session}/recognition/recording.txt" # None
-forceGreedy=''
 try:
     tmp_folder=args.tmp_folder
 except:
@@ -104,20 +105,25 @@ else:
 
         # when this is the first session, you need to select the chosenMask
         # python expScripts/recognition/greedyMask.py
-        if not args.skipGreedy:
+        if not args.skipses1Greedy:
             print("running greedyMask")
             recordingTxt=greedyMask(cfg)
 
     
-    if args.forceGreedy:
+    if args.forceGreedy=='forceGreedy':
         print("force running greedyMask")
         # cfg.chosenMask=f"{cfg.subjects_dir}{cfg.subjectName}/ses{cfg.session}/recognition/chosenMask.npy"
-        forceGreedy="forceGreedy"
-        recordingTxt=greedyMask(cfg,forceGreedy=forceGreedy,tmp_folder=tmp_folder)
-    
+        recordingTxt=greedyMask(cfg,forceGreedy=args.forceGreedy,tmp_folder=tmp_folder)
+    elif args.forceGreedy=='compare_forceGreedy':
+        pass
+    elif args.forceGreedy=='_':
+        pass
+    else:
+        raise Exception("args.forceGreedy is wrong, should be compare_forceGreedy , forceGreedy or _")
+
     # train the classifiers
     # accs = minimalClass(cfg)
-    accs = minimalClass(cfg,testRun=args.testRun,recordingTxt=recordingTxt, forceGreedy=forceGreedy)
+    accs, cfg = minimalClass(cfg,testRun=args.testRun,recordingTxt=recordingTxt, forceGreedy=args.forceGreedy)
 
     print("\n\n")
     print(f"minimalClass accs={accs}")
