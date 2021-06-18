@@ -18,6 +18,7 @@ if 'milgram' in os.getcwd():
 else:
     main_dir="/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/"
 sys.path.append(main_dir)
+sys.path.append(main_dir+'../../')
 
 import rtCommon.utils as utils
 from rtCommon.utils import loadConfigFile
@@ -25,7 +26,7 @@ from rtCommon.utils import loadConfigFile
 argParser = argparse.ArgumentParser()
 argParser.add_argument('--config', '-c', default='pilot_sub001.ses1.toml', type=str, help='experiment file (.json or .toml)')
 args = argParser.parse_args()
-from rtCommon.cfg_loading import mkdir,cfg_loading
+from cfg_loading import mkdir,cfg_loading
 cfg = cfg_loading(args.config)
 
 # def chooseGeneratingCode(cfg):
