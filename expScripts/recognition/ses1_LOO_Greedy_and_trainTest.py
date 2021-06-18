@@ -90,7 +90,7 @@ def greedyMask(cfg,N=78,LeaveOutRun=1,recordingTxt = "", tmp_folder=''): # N use
     '''
 
 
-    from rtCommon.cfg_loading import mkdir,cfg_loading
+    from cfg_loading import mkdir,cfg_loading
     # config="sub001.ses1.toml"
     # cfg = cfg_loading(config)
 
