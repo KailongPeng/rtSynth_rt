@@ -13,6 +13,6 @@ conda activate /gpfs/milgram/project/turk-browne/users/kp578/CONDA/rtcloud
 toml=$1 # sub002.ses5.toml
 LeaveOutRun=$2
 tmp_folder=$3
-echo python -u /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/ses1_LOO_Greedy_and_trainTest.py -c $toml --LeaveOutRun $LeaveOutRun --tmp_folder $tmp_folder
-python -u /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/ses1_LOO_Greedy_and_trainTest.py -c $toml --LeaveOutRun $LeaveOutRun --tmp_folder $tmp_folder
+echo python -u /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/ses1_LOO_Greedy_and_trainTest.py -c $toml --LeaveOutRun $LeaveOutRun --tmp_folder $tmp_folder --jobID ${SLURM_JOBID}
+python -u /gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/ses1_LOO_Greedy_and_trainTest.py -c $toml --LeaveOutRun $LeaveOutRun --tmp_folder $tmp_folder --jobID ${SLURM_JOBID}
 

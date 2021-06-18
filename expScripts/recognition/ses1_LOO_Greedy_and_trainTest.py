@@ -1,7 +1,8 @@
 # coding=UTF-8
 import os
 import sys
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/')
 import argparse
 import numpy as np
 import nibabel as nib
@@ -39,15 +40,16 @@ argParser.add_argument('--testRun', '-t', default=None, type=int, help='testRun,
 argParser.add_argument('--scan_asTemplate', '-a', default=1, type=int, help="which scan's middle dicom as Template?")
 argParser.add_argument('--preprocessOnly', default=False, action='store_true', help='whether to only do preprocess and skip everything else')
 argParser.add_argument('--LeaveOutRun', '-l', default=None, type=int, help='testRun, can be [None,1,2,3,4,5,6,7,8]')
-
+argParser.add_argument('--jobID', default='' , type=str, help='jobID')
 argParser.add_argument('--tmp_folder', default='_', type=str, help='tmp_folder')
 
 args = argParser.parse_args()
 from rtCommon.cfg_loading import mkdir,cfg_loading
 # config="sub001.ses2.toml"
 cfg = cfg_loading(args.config)
+cfg.jobID=args.jobID
 
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/expScripts/recognition/')
+
 from recognition_dataAnalysisFunctions import behaviorDataLoading,normalize,append_file
 
 def wait(waitfor, delay=1):
@@ -336,8 +338,7 @@ def greedyMask(cfg,N=78,LeaveOutRun=1,recordingTxt = "", tmp_folder=''): # N use
     
     return recordingTxt
 
-
-def minimalClass(cfg,LeaveOutRun=1,recordingTxt=None):
+def minimalClass(cfg,LeaveOutRun=1,recordingTxt=""):
     '''
     purpose: 
         train offline models
@@ -435,9 +436,11 @@ def minimalClass(cfg,LeaveOutRun=1,recordingTxt=None):
         label.append(imcodeDict[META['Item'].iloc[curr_trial]])
     META['label']=label # merge the label column with the data dataframe
 
+    accTable = pd.DataFrame()
+
     # Which run to use as test data (leave as None to not have test data)
     # testRun = 0 # when testing: testRun = 2 ; META['run_num'].iloc[:5]=2
-    def train4wayClf(META, FEAT):
+    def train4wayClf(META, FEAT, accTable):
         runList = np.unique(list(META['run_num']))
         print(f"runList={runList}")
         accList={}
@@ -463,12 +466,19 @@ def minimalClass(cfg,LeaveOutRun=1,recordingTxt=None):
             acc = clf.score(testX, testY)
             print("acc=", acc)
             accList[testRun] = acc
+
+            Fourway_acc=acc
+            accTable = accTable.append({
+                'testRun':testRun,
+                'Fourway_acc':Fourway_acc},
+                ignore_index=True)
+
         print(f"new trained full rotation 4 way accuracy mean={np.mean(list(accList.values()))}")
-        if recordingTxt: #if tmp_folder is not None but some string, save the sentence.
+        if recordingTxt=='': #if tmp_folder is not None but some string, save the sentence.
             append_file(f"{recordingTxt}",f"new trained full rotation 4 way accuracy mean={np.mean(list(accList.values()))}")
         
-        return accList
-    accList = train4wayClf(META, FEAT)
+        return accList, accTable
+    accList, accTable = train4wayClf(META, FEAT, accTable)
     
     # 获得full rotation的2way clf的accuracy 平均值 中文
     accs_rotation=[]
@@ -525,6 +535,11 @@ def minimalClass(cfg,LeaveOutRun=1,recordingTxt=None):
                 print(naming, acc)
                 accs[naming]=acc
 
+    for TwoWay_clf in ["AB","CD","AC","AD","BC","BD"]:
+        
+        accTable.loc[curr_testRun,TwoWay_clf+'_acc']=accs[cfg.twoWayClfDict[TwoWay_clf][0]]
+        print(f"accTable={accTable}")
+
     print(f"accs={accs}")
     print(f"LeaveOutRun = {LeaveOutRun} : average 2 way clf accuracy={np.mean(list(accs.values()))}")
     # accs_rotation.append(np.mean(list(accs.values())))
@@ -533,7 +548,9 @@ def minimalClass(cfg,LeaveOutRun=1,recordingTxt=None):
         append_file(f"{recordingTxt}",f"accs={accs}")
         append_file(f"{recordingTxt}",f"LeaveOutRun = {LeaveOutRun} : average 2 way clf accuracy={np.mean(list(accs.values()))}")
     
-    return accs
+    accTable.to_csv(f"{cfg.projectDir}/../../logs/accTable_{cfg.jobID}.csv") 
+    cfg.accTable=accTable
+    return accs,cfg
 
 # recordingTxt=f"{cfg.subjects_dir}{cfg.subjectName}/ses{cfg.session}/recognition/recording.txt" # None
 forceGreedy="forceGreedy"
@@ -547,8 +564,9 @@ else:
 LeaveOutRun=args.LeaveOutRun
 print(f"LeaveOutRun={LeaveOutRun}")
 
-recordingTxt=greedyMask(cfg, LeaveOutRun=int(LeaveOutRun),recordingTxt=recordingTxt,tmp_folder=tmp_folder)
-accs = minimalClass(cfg,LeaveOutRun=LeaveOutRun,recordingTxt=recordingTxt)
+
+# recordingTxt=greedyMask(cfg, LeaveOutRun=int(LeaveOutRun),recordingTxt=recordingTxt,tmp_folder=tmp_folder)
+accs,cfg = minimalClass(cfg,LeaveOutRun=LeaveOutRun,recordingTxt=recordingTxt)
 print("\n\n")
 print(f"minimalClass accs={accs}")
 # save_obj(accs,f"{cfg.recognition_dir}minimalClass_accs")
