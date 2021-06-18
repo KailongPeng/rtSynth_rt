@@ -475,7 +475,7 @@ def minimalClass(cfg,LeaveOutRun=1,recordingTxt=""):
                 ignore_index=True)
 
         print(f"new trained full rotation 4 way accuracy mean={np.mean(list(accList.values()))}")
-        if recordingTxt=='': #if tmp_folder is not None but some string, save the sentence.
+        if recordingTxt!='': #if tmp_folder is not None but some string, save the sentence.  
             append_file(f"{recordingTxt}",f"new trained full rotation 4 way accuracy mean={np.mean(list(accList.values()))}")
         
         return accList, accTable
