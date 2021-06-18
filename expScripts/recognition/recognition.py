@@ -10,20 +10,18 @@
 
 from __future__ import print_function, division
 import traceback,time
-# try:
-
 import sys,os
-if 'watts' in os.getcwd():
-    sys.path.append("/home/watts/Desktop/ntblab/kailong/rt-cloud/")
-    sys.path.append("/home/watts/Desktop/ntblab/kailong/rt-cloud/projects/rtSynth_rt/")
-elif 'kailong' in os.getcwd():
-    sys.path.append("/Users/kailong/Desktop/rtEnv/rt-cloud/")
-    sys.path.append("/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/")
-elif 'milgram' in os.getcwd():
-    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/')
-    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
 
-import os
+if 'watts' in os.getcwd():
+    main_dir = "/home/watts/Desktop/ntblab/kailong/rt-cloud/projects/rtSynth_rt/"
+elif 'kailong' in os.getcwd():
+    main_dir="/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/"
+elif 'milgram' in os.getcwd():    
+    main_dir = "/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/"
+
+sys.path.append(main_dir+"../../")
+sys.path.append(main_dir)
+sys.path.append(main_dir+"expScripts/recognition/")
 from psychopy import visual, event, core, logging, gui, data, monitors
 from psychopy.hardware.emulator import launchScan, SyncGenerator
 from PIL import Image
@@ -35,13 +33,7 @@ import argparse
 import fmrisim as sim
 from cfg_loading import mkdir,cfg_loading
 
-# imcode:
-# A: bed
-# B: Chair
-# C: table
-# D: bench
 alpha = string.ascii_uppercase
-
 
 argParser = argparse.ArgumentParser()
 argParser.add_argument('--config', '-c', default='sub001.ses1.toml', type=str, help='experiment file (.json or .toml)')
@@ -51,6 +43,8 @@ argParser.add_argument('--trying', default=False, action='store_true',
 args = argParser.parse_args()
 
 cfg = cfg_loading(args.config)
+
+
 sub = cfg.subjectName
 run = int(args.run)  # 1
 TR=cfg.TR
@@ -67,6 +61,12 @@ else:
 gui = True if screenmode == False else False
 scnWidth, scnHeight = monitors.Monitor(monitor_name).getSizePix()
 frameTolerance = 0.001  # how close to onset before 'same' frame
+
+# imcode:
+# A: bed
+# B: Chair
+# C: table
+# D: bench
 
 # # create window on which all experimental stimuli will be drawn.
 # mywin = visual.Window([scnWidth - 10, scnHeight - 10], color=(0, 0, 0), screen=1, units="pix",
@@ -86,10 +86,6 @@ mywin = visual.Window(
     blendMode='avg', useFBO=True,
     units='height')
 
-if 'watts' in os.getcwd():
-    main_dir = "/home/watts/Desktop/ntblab/kailong/rt-cloud/projects/rtSynth_rt/" # main_dir = "/home/watts/Desktop/ntblab/kailong/rtSynth_rt/"
-else:
-    main_dir="/Users/kailong/Desktop/rtEnv/rt-cloud/projects/rtSynth_rt/"
 
 choose = np.load(f"{cfg.subjects_dir}/{cfg.subjectName}/ses{cfg.session}/recognition/choose.npy")
 
@@ -123,8 +119,7 @@ newfile = f"{main_dir}subjects/{sub}/ses{cfg.session}/recognition/{sub}_{run}.cs
 assert not os.path.isfile(newfile), f"FILE {newfile} ALREADY EXISTS - check subject and run number"
 
 # create empty dataframe to accumulate data
-data = pd.DataFrame(columns=['Sub', 'Run', 'TR', 'Onset', 'Item', 'Change', 'CorrResp',
-                            'Resp', 'RT', 'Acc', 'image_on', 'button_on', 'button_off'])
+data = pd.DataFrame(columns=['Sub', 'Run', 'TR', 'Onset', 'Item', 'Resp', 'RT', 'image_on', 'button_on', 'button_off'])
 
 # Create the fixation dot, and initialize as white fill.
 fix = visual.Circle(mywin, units='deg', radius=0.05, pos=(0, 0+5), fillColor='white',
@@ -218,9 +213,6 @@ image_on = ""
 button_on = ""
 button_off = ""
 
-
-
-
 background = visual.ImageStim(
     win=mywin,
     name='background',
@@ -296,11 +288,11 @@ while globalClock.getTime() <= (MR_settings['volumes'] * MR_settings['TR']): # �
 
     trialTime = trialClock.getTime()
     keys = event.getKeys(["1", "2", "5", "0"])  # check for triggers / key presses, whenever you want to quite, type 0
-    if '0' in keys: # whenever you want to quit, type 0
+    if '0' in keys: # whenever you want to quit, type 0 #想要中断的时候按0
         mywin.close()
         core.quit()
 
-    if '5' in keys:
+    if '5' in keys: #每次有一个TR的数据开始采集，就保存上一个TR的数据，并且
                 # print(globalClock.getTime())
         trigger_counter += 1  # if there's a trigger, increment the trigger counter。当前是第几个TR？
         if countDown > 0:
@@ -311,10 +303,23 @@ while globalClock.getTime() <= (MR_settings['volumes'] * MR_settings['TR']): # �
             message.setAutoDraw(False)
             # write the data!
             print(f"running trial {Trial_ID[0]}")
-            data = data.append({'Trial_ID':Trial_ID[0],'Sub': sub, 'Run': run, 'TR': trigger_counter - 1, 'Onset': time_list[0],
-                                'Item': trials[0], 'Change': changes[0], 'Resp': resp,
-                                'RT': resp_time, 'image_on': image_on, 'button_on': button_on,
-                                'button_off': button_off,'switchButtonOrientation':switchButtonOrientation},
+            data = data.append({'Trial_ID':Trial_ID[0],
+                                'Sub': sub, 
+                                'Run': run, 
+                                'TR': trigger_counter - 1, 
+                                'Onset': time_list[0],
+                                
+                                'Item': trials[0],
+                                'switchButtonOrientation':switchButtonOrientation,
+                                'Resp':resp,
+
+                                'RT': resp_time, 
+                                'image_on': image_on, 
+                                'button_on': button_on,
+                                'button_off': button_off,
+                                'stim': onsets[0] 
+                                # 'button_left': button_lefts[0]
+                                },
                                 ignore_index=True)
             data.to_csv(newfile) 
             # pop out all first items, and reset responses, because they correspond to the trial that already happened
@@ -341,8 +346,8 @@ while globalClock.getTime() <= (MR_settings['volumes'] * MR_settings['TR']): # �
                 time1s = 1
                 time19s = 1
                 imgPath = f"{cfg.recognition_expScripts_dir}{imgPaths[0]}"
-                # button_left = button_lefts[0]
-                # button_right = button_rights[0]
+
+                switchButtonOrientation = bool(np.random.randint(2)) # update the switchButtonOrientation
                 if switchButtonOrientation: # decide randomly whether to switch the orientation of two buttons
                     button_left = button_rights[0]
                     button_right = button_lefts[0]
@@ -397,7 +402,7 @@ while globalClock.getTime() <= (MR_settings['volumes'] * MR_settings['TR']): # �
             print('- {} pressed {} after {} s. {} right, {} wrong. -'.format(qual, resp, np.around(resp_time,2), hits, falses))
             event.clearEvents()
 
-            switchButtonOrientation = bool(np.random.randint(2)) # update the switchButtonOrientation
+            # switchButtonOrientation = bool(np.random.randint(2)) # update the switchButtonOrientation
 
     if len(onsets) != 0:  # if there are still trials remaining, draw the trial
         nindex = alpha.index(trials[0])  # turn image letter code into number
@@ -411,7 +416,7 @@ while globalClock.getTime() <= (MR_settings['volumes'] * MR_settings['TR']): # �
         image.setAutoDraw(False)
         image_status = 0
 
-    if button_left_.status <= 0 and trialTime >= 1 - frameTolerance:
+    if button_left_.status <= 0 and trialTime >= 1 - frameTolerance: #当按钮被隐藏的时候，在这个trial中如果超过了一秒钟，就隐藏图片并且展示按钮
         # background.setAutoDraw(True)
         button_left_.setAutoDraw(True)
         button_right_.setAutoDraw(True)
@@ -421,7 +426,7 @@ while globalClock.getTime() <= (MR_settings['volumes'] * MR_settings['TR']): # �
             button_on = globalTime  # data.at[lastestImageIDinData,'button_on']
             button_on_persist = globalTime  # the purpose of this variable is to make the latest button_on global time available for response time caculation
 
-    if button_left_.status == 1:
+    if button_left_.status == 1: #当按钮被显示的时候，在这个trial中如果超过了1.9秒钟，就隐藏按钮并且隐藏背景，如果第一次完成超过1.9s这个动作，那么就做出一些显示（包括text OFF、当前时间，trial的时间、有几个按钮没有按）
         # is it time to stop? (based on global clock, using actual start)
         if trialTime >= 1.9 - frameTolerance:
             # background.setAutoDraw(False)
