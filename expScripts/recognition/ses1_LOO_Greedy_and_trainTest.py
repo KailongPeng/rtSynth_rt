@@ -63,7 +63,7 @@ def greedyMask(cfg,N=78,LeaveOutRun=1,recordingTxt = "", tmp_folder=''): # N use
     import numpy as np
     import nibabel as nib
     import sys
-    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rtSynth_rt/')
+    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
     import time
     import pandas as pd
     from sklearn.linear_model import LogisticRegression
@@ -267,11 +267,11 @@ def greedyMask(cfg,N=78,LeaveOutRun=1,recordingTxt = "", tmp_folder=''): # N use
                     skip_flag+=1
 
             if skip_flag!=(i+1): # 如果有一个不存在，就需要跑一跑
-                command=f'sbatch --array=1-{i+1} {cfg.recognition_expScripts_dir}class_LOO.sh ./{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len(topN)}_'
+                command=f'sbatch --array=1-{i+1} {cfg.recognition_expScripts_dir}class_LOO.sh {cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len(topN)}_'
                 print(command)
                 proc = subprocess.Popen([command], shell=True) # sl_result = Class(_runs, bcvar) 
             else:
-                command=f'sbatch --array=1-{i+1} {cfg.recognition_expScripts_dir}class_LOO.sh ./{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len(topN)}_'
+                command=f'sbatch --array=1-{i+1} {cfg.recognition_expScripts_dir}class_LOO.sh {cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len(topN)}_'
                 print(f"skip {command}")
             try:
                 os.remove(f"{cfg.projectDir}{tmp_folder}/holdon.npy")
@@ -566,7 +566,7 @@ LeaveOutRun=args.LeaveOutRun
 print(f"LeaveOutRun={LeaveOutRun}")
 
 
-# recordingTxt=greedyMask(cfg, LeaveOutRun=int(LeaveOutRun),recordingTxt=recordingTxt,tmp_folder=tmp_folder)
+recordingTxt=greedyMask(cfg, LeaveOutRun=int(LeaveOutRun),recordingTxt=recordingTxt,tmp_folder=tmp_folder)
 accs,cfg = minimalClass(cfg,LeaveOutRun=LeaveOutRun,recordingTxt=recordingTxt)
 print("\n\n")
 print(f"minimalClass accs={accs}")
