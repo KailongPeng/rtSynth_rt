@@ -538,7 +538,7 @@ def minimalClass(cfg,LeaveOutRun=1,recordingTxt=""):
 
     for TwoWay_clf in ["AB","CD","AC","AD","BC","BD"]:
         
-        accTable.loc[curr_testRun,TwoWay_clf+'_acc']=accs[cfg.twoWayClfDict[TwoWay_clf][0]]
+        accTable.loc[LeaveOutRun-1,TwoWay_clf+'_acc']=accs[cfg.twoWayClfDict[TwoWay_clf][0]]
         print(f"accTable={accTable}")
 
     print(f"accs={accs}")
