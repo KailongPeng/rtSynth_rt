@@ -36,7 +36,7 @@ argParser.add_argument('--config', '-c', default='sub001.ses1.toml', type=str, h
 argParser.add_argument('--scan', '-s', default=1, type=int, help="which scan to simulate")
 
 args = argParser.parse_args()
-from rtCommon.cfg_loading import mkdir,cfg_loading
+from cfg_loading import mkdir,cfg_loading
 # config="sub001.ses2.toml"
 cfg = cfg_loading(args.config,trying="trying")
 
