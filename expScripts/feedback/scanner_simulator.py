@@ -29,7 +29,7 @@ def load_obj(name):
         return pickle.load(f)
 
 argParser = argparse.ArgumentParser()
-argParser.add_argument('--config', '-c', default='sub001.ses1.toml', type=str, help='experiment file (.json or .toml)')
+argParser.add_argument('--config', '-c', default='sub002.ses4.toml', type=str, help='experiment file (.json or .toml)')
 # argParser.add_argument('--skipPre', '-s', default=0, type=int, help='skip preprocess or not')
 # argParser.add_argument('--skipGreedy', '-g', default=0, type=int, help='skip greedy or not')
 # argParser.add_argument('--testRun', '-t', default=None, type=int, help='testRun, can be [None,1,2,3,4,5,6,7,8]')
@@ -40,12 +40,14 @@ from cfg_loading import mkdir,cfg_loading
 # config="sub001.ses2.toml"
 cfg = cfg_loading(args.config,trying="trying")
 
-shutil.rmtree("/tmp/dicom_folder/")
+# tmp_folder='/gpfs/milgram/scratch60/turk-browne/kp578/dicom_folder/'
+# shutil.rmtree("/tmp/dicom_folder/")
+shutil.rmtree(cfg.dicom_dir)
 mkdir(cfg.dicom_dir)
 
 
 for curr_TR in range(1,180+1):
     time.sleep(2)
     curr_dicom=f"{cfg.old_dicom_dir}001_{str(args.scan).zfill(6)}_{str(curr_TR).zfill(6)}.dcm"
-    copyfile(curr_dicom,f"/tmp/dicom_folder/001_{str(args.scan).zfill(6)}_{str(curr_TR).zfill(6)}.dcm")
+    copyfile(curr_dicom,f"{cfg.dicom_dir}001_{str(args.scan).zfill(6)}_{str(curr_TR).zfill(6)}.dcm")
     print(f"curr_TR={curr_TR}")
