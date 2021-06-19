@@ -59,7 +59,6 @@ def cfg_loading(toml='',trying=""):
     if trying=="trying":
         # cfg.dicom_dir="/tmp/dicom_folder/"
         cfg.dicom_dir='/gpfs/milgram/scratch60/turk-browne/kp578/dicom_folder/'
-        mkdir(cfg.dicom_dir)
         cfg.old_dicom_dir     = findDir(f"{cfg.dicom_folder}{cfg.YYYYMMDD}.{cfg.LASTNAME}*.{cfg.LASTNAME}*/")  # YYYYMMDD.$LASTNAME.$PATIENTID  e.g. /gpfs/milgram/project/realtime/DICOM/20201019.rtSynth_pilot001_2.rtSynth_pilot001_2/ inside which is like 001_000003_000067.dcm    
         cfg.TR=2
     else:
