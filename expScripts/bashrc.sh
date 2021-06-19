@@ -18,8 +18,9 @@
 
 
 # Milgram
-    function pinterface { bash scripts/run-projectInterface.sh -ip 172.29.189.${1} --subjectRemote -p rtSynth_rt -c /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/conf/${2}.${3}.toml ; } 
-    # pinterface 151 sub003 ses6
+    function pinterface { bash scripts/run-projectInterface.sh -ip 172.29.189.${1} --subjectRemote -p rtSynth_rt -c /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/conf/${2}.${3}.toml ${4} ; } 
+    # pinterface 151 sub004 ses2
+    # pinterface 151 sub004 ses2 --test
 
     function chooseGeneratingCode { python projects/rtSynth_rt/expScripts/recognition/chooseGeneratingCode.py -c ${1}.${2}.toml ; } 
     # chooseGeneratingCode sub004 ses1
