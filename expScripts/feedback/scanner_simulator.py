@@ -45,6 +45,8 @@ cfg = cfg_loading(args.config,trying="trying")
 shutil.rmtree(cfg.dicom_dir)
 mkdir(cfg.dicom_dir)
 
+_t = input('Start now? Type anything \n')
+print(_t)
 
 for curr_TR in range(1,180+1):
     time.sleep(2)
