@@ -8,7 +8,7 @@ module load AFNI
 module load FreeSurfer/6.0.0
 module load FSL
 . ${FSLDIR}/etc/fslconf/fsl.sh
-# set -e
+set -e
 
 code_dir=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/
 raw_dir=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/
@@ -72,6 +72,6 @@ echo python -u -c "from GM_modelTrain_functions import wait; wait('/gpfs/milgram
 python -u -c "from GM_modelTrain_functions import wait; wait('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/${subjectName}/ses${ses}/anat/gm_func.nii.gz')"
 
 # 下一步是 greedy 以及 训练模型
-cd /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/
-echo python -u expScripts/recognition/8runRecgnitionModelTraining.py -c ${subjectName}.ses${ses}.toml --scan_asTemplate ${scan_asTemplate}
-python -u expScripts/recognition/8runRecgnitionModelTraining.py -c ${subjectName}.ses${ses}.toml --scan_asTemplate ${scan_asTemplate} --skipPre
+cd /gpfs/milgram/project/turk-browne/projects/rt-cloud/
+echo python -u projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py -c ${subjectName}.ses${ses}.toml --scan_asTemplate ${scan_asTemplate}
+python -u projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py -c ${subjectName}.ses${ses}.toml --scan_asTemplate ${scan_asTemplate} --skipPre
