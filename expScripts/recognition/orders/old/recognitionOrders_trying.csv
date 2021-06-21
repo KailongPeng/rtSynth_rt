@@ -1,0 +1,12 @@
+,time,imnum,dur,weight,imcode,path,corrAns,axis,button_left,button_right,viewPoint,imgPath
+0,6,2,1,1,C,,1,tableBench,Table,Bench,30,./carchair_exp/tableBench_1_30.png
+1,14,0,1,1,A,,1,bedChair,Bed,Chair,24,./carchair_exp/bedChair_1_24.png
+2,20,1,1,1,B,,100,bedChair,Bed,Chair,9,./carchair_exp/bedChair_100_9.png
+3,28,2,1,1,C,,1,tableBench,Table,Bench,21,./carchair_exp/tableBench_1_21.png
+4,32,3,1,1,D,,100,tableBench,Table,Bench,3,./carchair_exp/tableBench_100_3.png
+5,40,1,1,1,B,,100,bedChair,Bed,Chair,18,./carchair_exp/bedChair_100_18.png
+6,48,3,1,1,D,,100,tableBench,Table,Bench,30,./carchair_exp/tableBench_100_30.png
+7,54,1,1,1,B,,100,bedChair,Bed,Chair,3,./carchair_exp/bedChair_100_3.png
+8,60,0,1,1,A,,1,bedChair,Bed,Chair,36,./carchair_exp/bedChair_1_36.png
+9,68,2,1,1,C,,1,tableBench,Table,Bench,39,./carchair_exp/tableBench_1_39.png
+10,74,0,1,1,A,,1,bedChair,Bed,Chair,6,./carchair_exp/bedChair_1_6.png

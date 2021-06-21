@@ -138,7 +138,7 @@ web/*
 !subjects/sub00*/ses*/feedback/*.csv
 !subjects/sub00*/ses*/runRecording.csv
 !subjects/sub00*/ses*/catPer/catPer*.txt
-
+!expScripts/recognition/orders/*.csv
 subjects/sub102/*
 *BRIK
 *HEAD
