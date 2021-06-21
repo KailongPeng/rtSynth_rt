@@ -90,24 +90,24 @@ defaultConfig = '/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rt
 
 def doRuns(cfg, dataInterface, subjInterface, webInterface):
     """
-    This function is called by 'main()' below. Here, we use the 'fileInterface'
-    to read in dicoms (presumably from the scanner, but here it's from a folder
-    with previously collected dicom files), doing some sort of analysis in the
-    cloud, and then sending the info to the web browser.
+        This function is called by 'main()' below. Here, we use the 'fileInterface'
+        to read in dicoms (presumably from the scanner, but here it's from a folder
+        with previously collected dicom files), doing some sort of analysis in the
+        cloud, and then sending the info to the web browser.
 
-    INPUT:
-        [1] cfg (configuration file with important variables)
-        [2] fileInterface (this will allow a script from the cloud to access files
-               from the stimulus computer, which receives dicom files directly
-               from the Siemens console computer)
-        [3] projectComm (communication pipe to talk with projectInterface)
-    OUTPUT:
-        None.
+        INPUT:
+            [1] cfg (configuration file with important variables)
+            [2] fileInterface (this will allow a script from the cloud to access files
+                from the stimulus computer, which receives dicom files directly
+                from the Siemens console computer)
+            [3] projectComm (communication pipe to talk with projectInterface)
+        OUTPUT:
+            None.
 
-    This is the main function that is called when you run 'sample.py'.
-    Here, you will set up an important argument parser (mostly provided by
-    the toml configuration file), initiate the class fileInterface, and then
-    call the function 'doRuns' to actually start doing the experiment.
+        This is the main function that is called when you run 'sample.py'.
+        Here, you will set up an important argument parser (mostly provided by
+        the toml configuration file), initiate the class fileInterface, and then
+        call the function 'doRuns' to actually start doing the experiment.
     """
 
     # variables we'll use throughout
@@ -117,17 +117,17 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
     print(f"Doing run {runNum}, scan {scanNum}")
     print(f"cfg.dicomDir={cfg.dicomDir}")
     """
-    Before we get ahead of ourselves, we need to make sure that the necessary file
-        types are allowed (meaning, we are able to read them in)... in this example,
-        at the very least we need to have access to dicom and txt file types.
-    use the function 'allowedFileTypes' in 'fileClient.py' to check this!
-    If allowedTypes doesn't include the file types we need to use then the 
-        file service (scannerDataService) running at the control room computer will
-        need to be restarted with the correct list of allowed types provided.
+        Before we get ahead of ourselves, we need to make sure that the necessary file
+            types are allowed (meaning, we are able to read them in)... in this example,
+            at the very least we need to have access to dicom and txt file types.
+        use the function 'allowedFileTypes' in 'fileClient.py' to check this!
+        If allowedTypes doesn't include the file types we need to use then the 
+            file service (scannerDataService) running at the control room computer will
+            need to be restarted with the correct list of allowed types provided.
 
-    INPUT: None
-    OUTPUT:
-          [1] allowedFileTypes (list of allowed file types)
+        INPUT: None
+        OUTPUT:
+            [1] allowedFileTypes (list of allowed file types)
     """
     allowedFileTypes = dataInterface.getAllowedFileTypes()
     if verbose:
@@ -154,22 +154,22 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
     print(f"dicomScanNamePattern={dicomScanNamePattern}")
 
     """
-    There are several ways to receive Dicom data from the control room computer:
-    1. Using `initWatch()` and 'watchFile()` commands of dataInterface or the
-        helper function `readRetryDicomFromDataInterface()` which calls watchFile()
-        internally.
-    2. Using the streaming functions with `initScannerStream()` and `getImageData(stream)`
-        which are also part of the dataInterface.
+        There are several ways to receive Dicom data from the control room computer:
+        1. Using `initWatch()` and 'watchFile()` commands of dataInterface or the
+            helper function `readRetryDicomFromDataInterface()` which calls watchFile()
+            internally.
+        2. Using the streaming functions with `initScannerStream()` and `getImageData(stream)`
+            which are also part of the dataInterface.
     """
     if useInitWatch is True:
         """
-        Initialize a watch for the entire dicom folder using the function 'initWatch'
-        of the dataInterface. (Later we will use watchFile() to look for a specific dicom)
-        INPUT:
-            [1] cfg.dicomDir (where the subject's dicom files live)
-            [2] cfg.dicomNamePattern (the naming pattern of dicom files)
-            [3] cfg.minExpectedDicomSize (a check on size to make sure we don't
-                    accidentally grab a dicom before it's fully acquired)
+            Initialize a watch for the entire dicom folder using the function 'initWatch'
+            of the dataInterface. (Later we will use watchFile() to look for a specific dicom)
+            INPUT:
+                [1] cfg.dicomDir (where the subject's dicom files live)
+                [2] cfg.dicomNamePattern (the naming pattern of dicom files)
+                [3] cfg.minExpectedDicomSize (a check on size to make sure we don't
+                        accidentally grab a dicom before it's fully acquired)
         """
         if verbose:
             print("• initalize a watch for the dicoms using 'initWatch'")
@@ -178,14 +178,14 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
         dataInterface.initWatch(cfg.dicomDir, dicomScanNamePattern, cfg.minExpectedDicomSize)
     else:  # use Stream functions
         """
-        Initialize a Dicom stream by indicating the directory and dicom file pattern that
-        will be streamed.
+            Initialize a Dicom stream by indicating the directory and dicom file pattern that
+            will be streamed.
 
-        INPUTs to initScannerStream():
-            [1] cfg.dicomDir (where the subject's dicom files live)
-            [2] dicomScanNamePattern (the naming pattern of dicom files)
-            [3] cfg.minExpectedDicomSize (a check on size to make sure we don't
-                    accidentally grab a dicom before it's fully acquired)
+            INPUTs to initScannerStream():
+                [1] cfg.dicomDir (where the subject's dicom files live)
+                [2] dicomScanNamePattern (the naming pattern of dicom files)
+                [3] cfg.minExpectedDicomSize (a check on size to make sure we don't
+                        accidentally grab a dicom before it's fully acquired)
         """
         if verbose:
             print(f"cfg.dicomDir={cfg.dicomDir}, dicomScanNamePattern={dicomScanNamePattern}, cfg.minExpectedDicomSize={cfg.minExpectedDicomSize})")
@@ -197,11 +197,11 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
 
 
     """
-    We will use the function plotDataPoint in webInterface whenever we
-      want to send values to the web browser so that they can be plotted in the
-      --Data Plots-- tab. 
-    However at the start of a run we will want to clear the plot, and we can use
-    clearRunPlot(runId), or clearAllPlots() also in the webInterface object.
+        We will use the function plotDataPoint in webInterface whenever we
+        want to send values to the web browser so that they can be plotted in the
+        --Data Plots-- tab. 
+        However at the start of a run we will want to clear the plot, and we can use
+        clearRunPlot(runId), or clearAllPlots() also in the webInterface object.
     """
     if verbose:
         print("• clear any pre-existing plot for this run using 'clearRunPlot(runNum)'")
@@ -229,13 +229,12 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
         "-----------------------------------------------------------------------------\n")
 
     tmp_dir=f"{cfg.tmp_folder}{time.time()}/" ; mkdir(tmp_dir)
-    forceGreedy = ""
-    if forceGreedy=="forceGreedy":
-        mask = np.load(f"{cfg.chosenMask_using}")
-    else:
-        mask = np.load(f"{cfg.chosenMask}")
 
-
+    # forceGreedy = ""
+    # if forceGreedy=="forceGreedy":
+        # mask = np.load(f"{cfg.chosenMask_using}")
+    # else:
+    mask = np.load(f"{cfg.chosenMask}")
 
     BC_clf=joblib.load(cfg.usingModel_dir +'benchchair_chairtable.joblib') # These 4 clf are the same: bedbench_benchtable.joblib bedtable_tablebench.joblib benchchair_benchtable.joblib chairtable_tablebench.joblib
     BD_clf=joblib.load(cfg.usingModel_dir +'bedchair_chairbench.joblib') # These 4 clf are the same: bedbench_benchtable.joblib bedtable_tablebench.joblib benchchair_benchtable.joblib chairtable_tablebench.joblib
@@ -244,8 +243,6 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
     # output_textFilename = f'{cfg.feedback_dir}B_probs_{scanNum}.txt'
     output_matFilename = os.path.join(f'{cfg.feedback_dir}B_probs_{scanNum}.mat')
     
-    
-
     num_total_trials=12
     num_total_TRs = int((num_total_trials*28+12)/2) + 8  # number of TRs to use for example 1
     # morphParams = np.zeros((num_total_TRs, 1))
@@ -270,13 +267,12 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
                     [3] timeout (time spent waiting for a file before timing out)
                 OUTPUT:
                     [1] dicomData (with class 'pydicom.dataset.FileDataset')
-                """
+            """
             print(f'Processing TR {this_TR}')
             if verbose:
                 print("• use 'readRetryDicomFromDataInterface' to read dicom file for",
                     "TR %d, %s" %(this_TR, dicomFilename))
-            dicomData = readRetryDicomFromDataInterface(dataInterface, dicomFilename,
-                timeout_file)  
+            dicomData = readRetryDicomFromDataInterface(dataInterface, dicomFilename, timeout_file)  
         else:  # use Stream functions
             """
             Use dataInterface.getImageData(streamId) to query a stream, waiting for a 
@@ -302,10 +298,6 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
             return         
         dicomData.convert_pixel_data()
 
-        # use 'dicomreaders.mosaic_to_nii' to convert the dicom data into a nifti
-        #   object. additional steps need to be taken to get the nifti object in
-        #   the correct orientation, but we will ignore those steps here. refer to
-        #   the 'advanced sample project' for more info about that
         if verbose:
             print("| convert dicom data into a nifti object")
         niftiObject = dicomreaders.mosaic_to_nii(dicomData)
@@ -320,6 +312,7 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
         # 由于遇到了这个bug：Input: A-P R-L I-S
             # Base:  R-L P-A I-S
             # ** FATAL ERROR: perhaps you could make your datasets match?
+
         # 因此使用3dresample来处理这个bug
         command=f"3dresample \
             -master {cfg.templateFunctionalVolume_converted} \
@@ -333,16 +326,9 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
                 -prefix  {niiFileName}_aligned.nii \
                 {niiFileName}_reorient.nii"
 
-                # 3dvolreg -base /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/sub001/ses2/recognition/templateFunctionalVolume_converted.nii.gz -prefix test 001_000001_000150.nii
-                # fslreorient2std /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/sub001/ses2/recognition/templateFunctionalVolume_converted.nii.gz ref.nii.gz
-                # 001_000001_000150.nii
-                # Input: A-P R-L I-S
-                # Base:  R-L P-A I-S
-                # 3dvolreg -base ref.nii.gz -prefix test 001_000001_000150.nii
-                # 3dresample -master ref.nii.gz -prefix test.nii -input 001_000001_000150.nii
-                # 3dvolreg -base ref.nii.gz -prefix test_aligned.nii.gz test.nii 
         print(command)
         call(command,shell=True)
+
         niftiObject = nib.load(f"{niiFileName}_aligned.nii")
         nift_data = niftiObject.get_fdata()
         
