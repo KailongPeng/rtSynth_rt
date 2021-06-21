@@ -47,9 +47,22 @@ mkdir(cfg.dicom_dir)
 
 _t = input('Start now? Type anything \n')
 print(_t)
+startTime = time.time()
+curr_TR=1
+while True:
+    currTime=time.time()
+    if currTime - startTime > 2-0.002:
+        curr_dicom=f"{cfg.old_dicom_dir}001_{str(args.scan).zfill(6)}_{str(curr_TR).zfill(6)}.dcm"
+        copyfile(curr_dicom,f"{cfg.dicom_dir}001_{str(args.scan).zfill(6)}_{str(curr_TR).zfill(6)}.dcm")
+        print(f"curr_TR={curr_TR}")
+        curr_TR+=1
+        startTime+=2
+        if curr_TR>180:
+            break
 
-for curr_TR in range(1,180+1):
-    time.sleep(2)
-    curr_dicom=f"{cfg.old_dicom_dir}001_{str(args.scan).zfill(6)}_{str(curr_TR).zfill(6)}.dcm"
-    copyfile(curr_dicom,f"{cfg.dicom_dir}001_{str(args.scan).zfill(6)}_{str(curr_TR).zfill(6)}.dcm")
-    print(f"curr_TR={curr_TR}")
+
+# for curr_TR in range(1,180+1):
+#     time.sleep(2)
+#     curr_dicom=f"{cfg.old_dicom_dir}001_{str(args.scan).zfill(6)}_{str(curr_TR).zfill(6)}.dcm"
+#     copyfile(curr_dicom,f"{cfg.dicom_dir}001_{str(args.scan).zfill(6)}_{str(curr_TR).zfill(6)}.dcm")
+#     print(f"curr_TR={curr_TR}")
