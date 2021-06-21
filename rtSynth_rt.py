@@ -275,9 +275,11 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
                     "TR %d, %s" %(this_TR, dicomFilename))
             # dicomData = readRetryDicomFromDataInterface(dataInterface, dicomFilename, timeout_file)  
             while True:
-                if os.paths.exists(f"{cfg.dicom_dir}/{dicomFilename}"):
+                if os.path.exists(f"{cfg.dicom_dir}/{dicomFilename}"):
                     print(f"found {cfg.dicom_dir}/{dicomFilename}")
                     break
+                else:
+                    print(f"not found {cfg.dicom_dir}/{dicomFilename}")
                 
             dicomData = readRetryDicomFromDataInterface(dataInterface, dicomFilename, 0.0001)  
         else:  # use Stream functions
