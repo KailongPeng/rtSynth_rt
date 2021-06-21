@@ -446,7 +446,7 @@ def main(argv=None):
 
     # load the experiment configuration file
     print(f"rtSynth_rt: args.config={args.config}")
-    if False:
+    if True:
         cfg = cfg_loading(args.config,trying="trying")
     else:
         cfg = cfg_loading(args.config)
