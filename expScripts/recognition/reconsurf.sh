@@ -2,7 +2,7 @@
 # Input python command to be submitted as a job
 #SBATCH --output=logs/FS-%j.out
 #SBATCH --job-name FS
-#SBATCH --partition=verylong,day
+#SBATCH --partition=psych_day,psych_scavenge,psych_week,day,scavenge_all,week
 #SBATCH --time=24:00:00
 #SBATCH --mem=10000
 
