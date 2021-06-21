@@ -9,7 +9,9 @@ purpose
 
 import os
 import sys
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/')
 sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
+sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/')
 import argparse
 import numpy as np
 import nibabel as nib
@@ -38,7 +40,6 @@ args = argParser.parse_args()
 from cfg_loading import mkdir,cfg_loading
 cfg = cfg_loading(args.config)
 
-sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/')
 from recognition_dataAnalysisFunctions import recognition_preprocess,minimalClass,behaviorDataLoading,recognition_preprocess_2run # morphingTarget,classifierEvidence
 
 
