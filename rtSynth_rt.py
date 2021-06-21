@@ -282,7 +282,7 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
             #     else:
             #         print(f"not found {cfg.dicom_dir}/{dicomFilename}")
                 
-            dicomData = readRetryDicomFromDataInterface(dataInterface, dicomFilename, 0.0001)  
+            dicomData = readRetryDicomFromDataInterface(dataInterface, dicomFilename, timeout_file)  
         else:  # use Stream functions
             """
             Use dataInterface.getImageData(streamId) to query a stream, waiting for a 
@@ -306,8 +306,8 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
                 if os.path.exists(f"{cfg.dicom_dir}/{dicomFilename}"):
                     print(f"found {cfg.dicom_dir}/{dicomFilename}")
                     break
-                else:
-                    print(f"not found {cfg.dicom_dir}/{dicomFilename}")
+                # else:
+                #     print(f"not found {cfg.dicom_dir}/{dicomFilename}")
                 
             dicomData = dataInterface.getImageData(streamId, int(this_TR), timeout_file)
 
