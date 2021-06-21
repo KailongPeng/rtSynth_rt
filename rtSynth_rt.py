@@ -248,13 +248,14 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
     # morphParams = np.zeros((num_total_TRs, 1))
     B_probs=[]
     maskedData=0
+    timeout_file = 5 # small number because of demo, can increase for real-time
     processedTime=[] # for each this_TR (in dicom folder TR start from 1)
     for this_TR in np.arange(1,num_total_TRs):
         print(f"milgramTR_ID={this_TR}")
         # declare variables that are needed to use 'readRetryDicomFromFileInterface'
-        timeout_file = 5 # small number because of demo, can increase for real-time
-        dicomFilename = dicomScanNamePattern.format(TR=this_TR)
         
+        dicomFilename = dicomScanNamePattern.format(TR=this_TR)
+        processing_start_time=time.time()
         if useInitWatch is True:
             """
                 Use 'readRetryDicomFromDataInterface' in 'imageHandling.py' to wait for dicom
@@ -293,7 +294,7 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
                     "TR %d, %s" %(this_TR, dicomFilename))
             dicomData = dataInterface.getImageData(streamId, int(this_TR), timeout_file)
 
-        processing_start_time=time.time()
+        # processing_start_time=time.time()
         if dicomData is None:
             print('Error: getImageData returned None')
             return         
@@ -448,7 +449,7 @@ def main(argv=None):
 
     # load the experiment configuration file
     print(f"rtSynth_rt: args.config={args.config}")
-    if True:
+    if False:
         cfg = cfg_loading(args.config,trying="trying")
     else:
         cfg = cfg_loading(args.config)
