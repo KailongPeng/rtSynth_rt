@@ -273,7 +273,13 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
             if verbose:
                 print("• use 'readRetryDicomFromDataInterface' to read dicom file for",
                     "TR %d, %s" %(this_TR, dicomFilename))
-            dicomData = readRetryDicomFromDataInterface(dataInterface, dicomFilename, timeout_file)  
+            # dicomData = readRetryDicomFromDataInterface(dataInterface, dicomFilename, timeout_file)  
+            while True:
+                if os.paths.exists(f"{cfg.dicom_dir}/{dicomFilename}"):
+                    print(f"found {cfg.dicom_dir}/{dicomFilename}")
+                    break
+                
+            dicomData = readRetryDicomFromDataInterface(dataInterface, dicomFilename, 0.0001)  
         else:  # use Stream functions
             """
             Use dataInterface.getImageData(streamId) to query a stream, waiting for a 
