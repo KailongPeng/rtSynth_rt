@@ -254,7 +254,7 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
         # declare variables that are needed to use 'readRetryDicomFromFileInterface'
         timeout_file = 5 # small number because of demo, can increase for real-time
         dicomFilename = dicomScanNamePattern.format(TR=this_TR)
-        processing_start_time=time.time()
+        
         if useInitWatch is True:
             """
                 Use 'readRetryDicomFromDataInterface' in 'imageHandling.py' to wait for dicom
@@ -293,6 +293,7 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
                     "TR %d, %s" %(this_TR, dicomFilename))
             dicomData = dataInterface.getImageData(streamId, int(this_TR), timeout_file)
 
+        processing_start_time=time.time()
         if dicomData is None:
             print('Error: getImageData returned None')
             return         
@@ -383,6 +384,7 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
         print(f"{processing_end_time-processing_start_time} s passes when processing")
         processedTime.append(processing_end_time-processing_start_time)
         np.save(f'{cfg.feedback_dir}processedTime_scan{scanNum}',processedTime)
+
     # create the full path filename of where we want to save the activation values vector
     #   we're going to save things as .txt and .mat files
 
@@ -498,7 +500,6 @@ def main(argv=None):
     #            For example to plot data points, or update status messages.
     doRuns(cfg, dataInterface, subjInterface, webInterface)
     return 0
-
 
 if __name__ == "__main__":
     """
