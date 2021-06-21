@@ -301,7 +301,7 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
             if verbose:
                 print("• use dataInterface.getImageData() to read dicom file for"
                     "TR %d, %s" %(this_TR, dicomFilename))
-                        print(f"{cfg.dicom_dir}/{dicomFilename}")
+            print(f"{cfg.dicom_dir}/{dicomFilename}")
             while True:
                 if os.path.exists(f"{cfg.dicom_dir}/{dicomFilename}"):
                     print(f"found {cfg.dicom_dir}/{dicomFilename}")
