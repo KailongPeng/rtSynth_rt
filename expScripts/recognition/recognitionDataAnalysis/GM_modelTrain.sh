@@ -8,7 +8,7 @@ module load AFNI
 module load FreeSurfer/6.0.0
 module load FSL
 . ${FSLDIR}/etc/fslconf/fsl.sh
-set -e
+# set -e
 
 code_dir=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/
 raw_dir=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/
