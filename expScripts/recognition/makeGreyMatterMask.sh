@@ -70,7 +70,7 @@ processedEPI_bet=../anat/functional_bet.nii
 if test -f "$processedEPI"; then
     echo "$processedEPI exists."
 else
-    python -u /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py -c ${subject}.ses1.toml --scan_asTemplate ${scan_asTemplate} --preprocessOnly
+    python -u /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py -c ${subject}.ses1.toml --scan_asTemplate ${scan_asTemplate} --preprocessOnly 1
 fi
 
 bet ${processedEPI} ${processedEPI_bet}
