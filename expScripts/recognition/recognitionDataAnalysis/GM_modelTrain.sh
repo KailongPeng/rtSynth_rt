@@ -74,4 +74,10 @@ python -u -c "from GM_modelTrain_functions import wait; wait('/gpfs/milgram/proj
 # 下一步是 greedy 以及 训练模型
 cd /gpfs/milgram/project/turk-browne/projects/rt-cloud/
 echo python -u projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py -c ${subjectName}.ses${ses}.toml --scan_asTemplate ${scan_asTemplate}
-python -u projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py -c ${subjectName}.ses${ses}.toml --scan_asTemplate ${scan_asTemplate} --skipPre
+# python -u projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py --config ${subjectName}.ses${ses}.toml --scan_asTemplate ${scan_asTemplate} --skipPre
+forceGreedy=_
+tmp_folder=_
+skipses1Greedy=0
+skipPre=1
+python -u projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py --config ${subjectName}.ses${ses}.toml --scan_asTemplate ${scan_asTemplate} --forceGreedy ${forceGreedy} --tmp_folder ${tmp_folder} --skipses1Greedy ${skipses1Greedy} --jobID ${SLURM_JOBID} --skipPre ${skipPre}
+# python -u projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py --config ${config} --scan_asTemplate ${scan_asTemplate}                     --forceGreedy ${forceGreedy} --tmp_folder ${tmp_folder} --skipses1Greedy ${skipses1Greedy} --jobID ${SLURM_JOBID} --skipPre ${skipPre}
