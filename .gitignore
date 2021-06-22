@@ -147,7 +147,9 @@ subjects/sub*/ses*/anat/*
 subjects/sub002_changed
 subjects/sub002_backupAfterSes4
 subjects/backup_sub001
-
+subjects/sub002_backup/
+subjects/sub003_code_testing/
+subjects/sub003_old/
 
 certs/tmp/_ca.config
 projects/rtSynth_rt/conf/sub102.ses1.toml
