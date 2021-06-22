@@ -7,13 +7,13 @@
 #SBATCH --mem=2g
 
 '''
-This script is adapted from /Users/kailong/Desktop/rtTest/schaefer2018/make-schaefer-rois.sh
+    This script is adapted from /Users/kailong/Desktop/rtTest/schaefer2018/make-schaefer-rois.sh
 
-Purpose: 
-    get the customized masks for the current subject functional template masks
+    Purpose: 
+        get the customized masks for the current subject functional template masks
 
-steps:
-    convert the standard brain to the individual functional tempalte 
+    steps:
+        convert the standard brain to the individual functional tempalte 
 
 '''
 # module load AFNI/2018.08.28
