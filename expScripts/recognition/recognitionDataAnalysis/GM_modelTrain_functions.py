@@ -1,3 +1,7 @@
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 import os,time,shutil
 import numpy as np
 from glob import glob
