@@ -84,7 +84,8 @@ def recognition_preprocess(cfg,scan_asTemplate):
         dicomFiles=glob(f"{cfg.dicom_dir}/*.dcm") ; dicomFiles.sort()
         for curr_dicom in dicomFiles:
             dicomImg = readDicomFromFile(curr_dicom) # read dicom file
-            convertDicomImgToNifti(dicomImg, dicomFilename=f"{tmp_dir}/{curr_dicom.split('/')[-1]}") #convert dicom to nii    
+            # convertDicomImgToNifti(dicomImg, dicomFilename=f"{tmp_dir}/{curr_dicom.split('/')[-1]}") #convert dicom to nii    
+            convertDicomFileToNifti(curr_dicom, f"{tmp_dir}/{curr_dicom.split('/')[-1]}") #convert dicom to nii    
             # os.remove(f"{tmp_dir}/{curr_dicom.split('/')[-1]}") # remove temp dcm file
 
         # find the middle volume of the run1 as the template volume
