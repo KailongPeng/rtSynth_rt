@@ -1,24 +1,22 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-
 import os,time,shutil
 import numpy as np
 from glob import glob
 def find_ABCD_T1w_MPR_vNav(sub): # 这个函数的功能是找到第二个ABCD_T1w_MPR_vNav   usable的前面的数字，保存在ABCD_T1w_MPR_vNav.txt里面
-        raw_dir="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/"
-        os.chdir(raw_dir)
-        f = open(f"{raw_dir}{sub}_run_name.txt", "r") # print(f.read())
-        d = f.read()
+    raw_dir="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/"
+    os.chdir(raw_dir)
+    f = open(raw_dir+sub+"_run_name.txt","r")
+    d = f.read()
+    T1_ID = d.split("ABCD_T1w_MPR_vNav")[3]
+    T1_ID = int(T1_ID.split("\n")[1])
 
-        T1_ID = d.split("ABCD_T1w_MPR_vNav")[3]
-        T1_ID = int(T1_ID.split("\n")[1])
+    T2_ID = d.split("ABCD_T2w_SPC_vNav")[3]
+    T2_ID = int(T2_ID.split("\n")[1])
 
-        T2_ID = d.split("ABCD_T2w_SPC_vNav")[3]
-        T2_ID = int(T2_ID.split("\n")[1])
-
-        f = open(f"{raw_dir}{sub}_ABCD_T1w_MPR_vNav.txt","w")
-        f.write(f"T1_ID={T1_ID} ; T2_ID={T2_ID}")
-        f.close()
+    f = open(f"{raw_dir}{sub}_ABCD_T1w_MPR_vNav.txt","w")
+    f.write(f"T1_ID={T1_ID} ; T2_ID={T2_ID}")
+    f.close()
 
 def wait(waitfor, delay=1):
     while not os.path.exists(waitfor):
