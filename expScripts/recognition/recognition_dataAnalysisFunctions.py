@@ -56,7 +56,7 @@ from glob import glob
 import shutil
 import pandas as pd
 # from import convertDicomFileToNifti
-from rtCommon.imageHandling import convertDicomImgToNifti, readDicomFromFile
+from rtCommon.imageHandling import convertDicomImgToNifti, readDicomFromFile, convertDicomFileToNifti
 from cfg_loading import mkdir,cfg_loading
 from scipy.stats import zscore
 
