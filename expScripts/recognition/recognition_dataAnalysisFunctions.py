@@ -303,7 +303,20 @@ def minimalClass(cfg,testRun=None,recordingTxt=None,forceGreedy="_"):
     if you read runRecording for current session and found that there are only 4 runs in the current session, 
     you read the runRecording for previous session and fetch the last 4 recognition runs from previous session
     '''
+    # 获得实际的scan的个数 len(np.unique(np.asarray(scanList))) 
+    files=glob(f"{cfg.dicom_dir}/*.dcm")
+    scanList=[]
+    for file in files:
+        scanList.append(int(file.split(f"{cfg.subjectIDforxnat}/001_")[1].split('_')[0]))
+    len(np.unique(np.asarray(scanList)))
+
+    # 获得记录的scan的个数
     runRecording = pd.read_csv(f"{cfg.recognition_dir}../runRecording.csv")
+    len(runRecording)
+
+    # 实际的scan的个数和记录的scan的个数，两者必须相等
+    assert len(np.unique(np.asarray(scanList))) == len(runRecording)
+
     actualRuns = list(runRecording['run'].iloc[list(np.where(1==1*(runRecording['type']=='recognition'))[0])]) # can be [1,2,3,4,5,6,7,8] or [1,2,4,5]
 
     if forceGreedy=="forceGreedy": # 当使用forceGreedy的时候，只使用当前的session的数据进行模型的训练和
@@ -776,8 +789,20 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
     print('mask dimensions: {}'. format(mask.shape))
     print('number of voxels in mask: {}'.format(np.sum(mask)))
 
+    # 获得实际的scan的个数 len(np.unique(np.asarray(scanList))) 
+    files=glob(f"{cfg.dicom_dir}/*.dcm")
+    scanList=[]
+    for file in files:
+        scanList.append(int(file.split(f"{cfg.subjectIDforxnat}/001_")[1].split('_')[0]))
+    len(np.unique(np.asarray(scanList)))
 
+    # 获得记录的scan的个数
     runRecording = pd.read_csv(f"{cfg.recognition_dir}../runRecording.csv")
+    len(runRecording)
+
+    # 实际的scan的个数和记录的scan的个数，两者必须相等
+    assert len(np.unique(np.asarray(scanList))) == len(runRecording)
+
     actualRuns = list(runRecording['run'].iloc[list(np.where(1==1*(runRecording['type']=='recognition'))[0])]) # can be [1,2,3,4,5,6,7,8] or [1,2,4,5]
     if len(actualRuns) < 8:
         runRecording_preDay = pd.read_csv(f"{cfg.subjects_dir}{cfg.subjectName}/ses{cfg.session-1}/recognition/../runRecording.csv")
