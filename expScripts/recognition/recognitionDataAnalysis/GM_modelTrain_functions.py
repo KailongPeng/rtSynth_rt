@@ -1,9 +1,10 @@
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
 
 import os,time,shutil
 import numpy as np
 from glob import glob
 def find_ABCD_T1w_MPR_vNav(sub):
-        import sys ; reload(sys) ; sys.setdefaultencoding('utf8')
         ## 这个函数的功能是找到第二个ABCD_T1w_MPR_vNav   usable的前面的数字，保存在ABCD_T1w_MPR_vNav.txt里面
         raw_dir="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/"
         os.chdir(raw_dir)
@@ -26,7 +27,6 @@ def wait(waitfor, delay=1):
         print('waiting for {}'.format(waitfor))
         
 def find_T1_in_niiFolder(T1_ID,T2_ID,sub):
-    import sys ; reload(sys) ; sys.setdefaultencoding('utf8')
     subjectName=sub.split("_")[1] # sub 可能是rtSynth_sub001_ses5 或者 rtSynth_sub001; subjectName 应该是sub001之类的
     if len(sub.split("_"))==3:
         ses=int(sub.split("_")[2].split("ses")[1]) #ses应该是数字
@@ -55,7 +55,6 @@ def find_T1_in_niiFolder(T1_ID,T2_ID,sub):
     shutil.copyfile(T2,f"{AnatFolder}T2.nii")
 
 def _split(sub):
-    import sys ; reload(sys) ; sys.setdefaultencoding('utf8')
     subjectName=sub.split("_")[1] # sub 可能是rtSynth_sub001_ses5 或者 rtSynth_sub001; subjectName 应该是sub001之类的
     if len(sub.split("_"))==3:
         ses=int(sub.split("_")[2].split("ses")[1]) #ses应该是数字
