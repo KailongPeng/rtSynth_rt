@@ -79,5 +79,6 @@ forceGreedy=_
 tmp_folder=_
 skipses1Greedy=0
 skipPre=1
+# SLURM_JOBID=18115917
 python -u projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py --config ${subjectName}.ses${ses}.toml --scan_asTemplate ${scan_asTemplate} --forceGreedy ${forceGreedy} --tmp_folder ${tmp_folder} --skipses1Greedy ${skipses1Greedy} --jobID ${SLURM_JOBID} --skipPre ${skipPre}
 # python -u projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py --config ${config} --scan_asTemplate ${scan_asTemplate}                     --forceGreedy ${forceGreedy} --tmp_folder ${tmp_folder} --skipses1Greedy ${skipses1Greedy} --jobID ${SLURM_JOBID} --skipPre ${skipPre}
