@@ -14,7 +14,7 @@ def find_ABCD_T1w_MPR_vNav(sub): # 这个函数的功能是找到第二个ABCD_T
     T2_ID = d.split("ABCD_T2w_SPC_vNav")[3]
     T2_ID = int(T2_ID.split("\n")[1])
 
-    f = open(f"{raw_dir}{sub}_ABCD_T1w_MPR_vNav.txt","w")
+    f = open(raw_dir+sub+"_ABCD_T1w_MPR_vNav.txt","w")
     f.write(f"T1_ID={T1_ID} ; T2_ID={T2_ID}")
     f.close()
 
