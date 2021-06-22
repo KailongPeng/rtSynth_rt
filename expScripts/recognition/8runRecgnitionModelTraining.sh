@@ -22,7 +22,7 @@ cd /gpfs/milgram/project/turk-browne/projects/rt-cloud ; module load AFNI ; modu
 config=$1 # sub002.ses5.toml
 scan_asTemplate=$2 # 1 or other number
 skipses1Greedy=$3 # 1 is skipping 0 is not skipping
-skipPre=$4 # i is skipping 0 is not skipping
+skipPre=$4 # 1 is skipping 0 is not skipping
 forceGreedy=$5 # can be forceGreedy or compare_forceGreedy, if normal use _
 tmp_folder=$6 # can be _ or the actual folder
 
