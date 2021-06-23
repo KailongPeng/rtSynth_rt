@@ -38,7 +38,7 @@ argParser.add_argument('--scan', '-s', default=1, type=int, help="which scan to 
 args = argParser.parse_args()
 from cfg_loading import mkdir,cfg_loading
 # config="sub001.ses2.toml"
-cfg = cfg_loading(args.config,trying="trying")
+cfg = cfg_loading(args.config)
 
 # tmp_folder='/gpfs/milgram/scratch60/turk-browne/kp578/dicom_folder/'
 # shutil.rmtree("/tmp/dicom_folder/")
