@@ -476,15 +476,18 @@ while len(TR)>1: #globalClock.getTime() <= (MR_settings['volumes'] * MR_settings
         print(f"receive data: scannerTR={TR[0]} trID={trID} value={value}")
         feedbackMsg_dict[trID]=[runId,trID,value,timestamp]
         B_prob = float(value)
-    except Exception as e:
-        # print(f"error {e}")
-        pass
-    try:
+
         # runId,trID,value,timestamp = feedbackMsg_dict[TR[0]-1]
         runId,trID,value,timestamp = feedbackMsg_dict[TR[0]]
     except Exception as e:
-        print(f".",end='')
-        # pass
+        # print(f"error {e}")
+        pass
+    # try:
+    #     # runId,trID,value,timestamp = feedbackMsg_dict[TR[0]-1]
+    #     runId,trID,value,timestamp = feedbackMsg_dict[TR[0]]
+    # except Exception as e:
+    #     print(f".",end='')
+    #     # pass
 
     if '0' in keys: # whenever you want to quit, type 0
         break
