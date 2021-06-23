@@ -463,22 +463,33 @@ B_prob=0
 morphParam=None
 runId,trID,value,timestamp=None,None,None,None
 imagePaths=imagePaths13
+feedbackMsg_dict={}
 # curr_parameter=len(parameters['value'])-1
 while len(TR)>1: #globalClock.getTime() <= (MR_settings['volumes'] * MR_settings['TR']) + 3:
     trialTime = trialClock.getTime()
     keys = event.getKeys(["5","0"])  # check for triggers
     try:
-        feedbackMsg = subjectService.subjectInterface.msgQueue.get(block=True, timeout=0.0001) # from subjInterface.setResult(runNum, int(this_TR), B_prob)
+        feedbackMsg = subjectService.subjectInterface.msgQueue.get(block=True,timeout=0.1) # from subjInterface.setResult(runNum, int(this_TR), B_prob)
         runId,trID,value,timestamp = feedbackMsg.get('runId'),feedbackMsg.get('trId'),feedbackMsg.get('value'),feedbackMsg.get('timestamp')
+
+        print("\n---------------------------------------------")
+        print(f"receive data: scannerTR={TR[0]} trID={trID} value={value}")
+        feedbackMsg_dict[trID]=[runId,trID,value,timestamp]
         B_prob = float(value)
     except Exception as e:
         # print(f"error {e}")
         pass
+    try:
+        runId,trID,value,timestamp = feedbackMsg_dict[TR[0]]
+    except Exception as e:
+        print(f"feedbackMsg_dict error {e}")
+        # pass
+
     if '0' in keys: # whenever you want to quit, type 0
         break
     if len(keys):
-        print(f"Scanner_TR={TR[0]}")
         TR.pop(0)
+        # print(f"Scanner_TR={TR[0]}")
         old_state=states[0]
         states.pop(0)
         newWobble.pop(0)
