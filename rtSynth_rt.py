@@ -26,7 +26,7 @@ Finally, this script is called from 'projectMain.py', which is called from
 -----------------------------------------------------------------------------"""
 
 verbose = False
-useInitWatch = True
+useInitWatch = False
 
 if verbose:
     # print a short introduction on the internet window
