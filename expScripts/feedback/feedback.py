@@ -114,10 +114,10 @@ if checkSSLCertAltName(certFile, addr) is False:
     # Addr not listed in sslCert, recreate ssl Cert
     makeSSLCertFile(addr)
 
-if args.trying:
-    cfg = cfg_loading(args.config,trying="trying")
-else:
-    cfg = cfg_loading(args.config)
+# if args.trying:
+    # cfg = cfg_loading(args.config,trying="trying")
+# else:
+cfg = cfg_loading(args.config)
 sub = cfg.subjectName
 run = int(args.run)
 cfg.run = run
