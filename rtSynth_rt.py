@@ -238,7 +238,7 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
 
     BC_clf=joblib.load(cfg.usingModel_dir +'benchchair_chairtable.joblib') # These 4 clf are the same: bedbench_benchtable.joblib bedtable_tablebench.joblib benchchair_benchtable.joblib chairtable_tablebench.joblib
     BD_clf=joblib.load(cfg.usingModel_dir +'bedchair_chairbench.joblib') # These 4 clf are the same: bedbench_benchtable.joblib bedtable_tablebench.joblib benchchair_benchtable.joblib chairtable_tablebench.joblib
-
+    logTimes=[]
     # where the morphParams are saved
     # output_textFilename = f'{cfg.feedback_dir}B_probs_{scanNum}.txt'
     output_matFilename = os.path.join(f'{cfg.feedback_dir}B_probs_{scanNum}.mat')
@@ -311,6 +311,8 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
             #     #     print(f"not found {cfg.dicom_dir}/{dicomFilename}")
             timeout_file=5
             dicomData = dataInterface.getImageData(streamId, int(this_TR), timeout_file)
+            logTime=time.time()
+            logTimes.append(logTime)
 
         # processing_start_time=time.time()
         if dicomData is None:
@@ -403,6 +405,7 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
         print(f"{processing_end_time-processing_start_time} s passes when processing")
         processedTime.append(processing_end_time-processing_start_time)
         np.save(f'{cfg.feedback_dir}processedTime_scan{scanNum}',processedTime)
+        np.save(f'{cfg.feedback_dir}logTimes_{scanNum}',np.asarray(logTimes))
 
     # create the full path filename of where we want to save the activation values vector
     #   we're going to save things as .txt and .mat files
