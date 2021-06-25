@@ -63,7 +63,7 @@ def moneySummary(df):
         t = df[df['session']==sessionID]
         t_money=np.sum(10*t['monetaryReward10cent'])+np.sum(5*t['monetaryReward5cent'])
         money_total+=t_money
-        print(f"money for session{sessionID+1} is {int(t_money)} cents")
+        print(f"money for session{sessionID} is {int(t_money)} cents")
     print(f"total money earned is {int(money_total)} cents")
 
     # get a list of money for each run
