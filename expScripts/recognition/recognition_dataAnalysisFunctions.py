@@ -620,6 +620,7 @@ def behaviorDataLoading(cfg,curr_run):
     behav_data['subj']=[cfg.subjectName for i in range(len(behav_data))]
     behav_data['run_num']=[int(curr_run) for i in range(len(behav_data))]
     behav_data=behav_data[behav_data['isCorrect']] # discard the trials where the subject made wrong selection
+    print(f"behav_data correct trial number = {len(behav_data)}")
     return behav_data
 
 def classifierProb(clf,X,Y):
@@ -703,7 +704,8 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
 
     subject,dataSource,roiloc,N=cfg.subjectName,"realtime","schaefer2018",N
     # subject,dataSource,roiloc,N=sys.argv[1],sys.argv[2],sys.argv[3],int(sys.argv[4])
-
+    print(f"current time={time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time()))}")
+    greedyStartTime=time.time()
     print("Running subject {}, with {} as a data source, {}, starting with {} ROIs".format(subject, dataSource, roiloc, N))
 
     funcdata = cfg.recognition_dir + "brain_run{run}.npy"
@@ -795,7 +797,7 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
         behav_data.append(t)
 
     if tmp_folder=='':
-        tmp_folder = f"tmp__folder_{time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time()))}" #tmp__folder
+        tmp_folder = f"tmp__folder_{time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time()))}_{time.time()}" #tmp__folder
         mkdir(f"{cfg.projectDir}{tmp_folder}")
     recordingTxt=f"{cfg.projectDir}{tmp_folder}/recording.txt"
     save_obj([brain_data,behav_data],f"{cfg.projectDir}{tmp_folder}/{subject}_{dataSource}_{roiloc}_{N}") #{len(topN)}_{i}
@@ -910,6 +912,7 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
 
     # N-1
     def next(topN):
+        print(f"current time={time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time()))}")
         print(f"len(topN)={len(topN)}")
         print(f"topN={topN}")
 
@@ -1033,6 +1036,12 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
         np.save(cfg.chosenMask_training,mask)
         print(f"saving {cfg.chosenMask_training}")
 
+    print(f"current time is {time.strftime('%Y-%m-%d-%H-%M-%S-%W', time.localtime(time.time()))}")
+    greedyEndTime=time.time()
+    print(f"greedyEndTime-greedyStartTime={greedyEndTime-greedyStartTime} s")
+    print(f"greedyEndTime-greedyStartTime={(greedyEndTime-greedyStartTime)/60} min")
+    print(f"greedyEndTime-greedyStartTime={(greedyEndTime-greedyStartTime)/60/60} h")
+    
     return recordingTxt
 
 def view_greedy_curve(tmp_folder="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/tmp__folder_2021-06-01-19-46-52",toml="sub003.ses1.toml"):
