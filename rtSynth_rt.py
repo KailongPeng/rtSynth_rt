@@ -318,7 +318,7 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
         if dicomData is None:
             print('Error: getImageData returned None')
             return         
-        dicomData.convert_pixel_data()
+        # dicomData.convert_pixel_data()
 
         if verbose:
             print("| convert dicom data into a nifti object")
