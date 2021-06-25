@@ -45,8 +45,7 @@ def cfg_loading(toml=''):
         cfg.projectDir="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/"
     else: 
         raise Exception('path error')
-    # cfg.tmp_folder="/gpfs/milgram/scratch60/turk-browne/kp578/rtcloud_rt/"
-    cfg.tmp_folder="/tmp/" # for speeding up, use the storage on the local memory unit
+    
     cfg.orderFolder=f'{cfg.projectDir}expScripts/recognition/orders/'
     cfg.subjects_dir=f'{cfg.projectDir}subjects/'
     cfg.dicom_folder="/gpfs/milgram/project/realtime/DICOM/"
@@ -61,9 +60,11 @@ def cfg_loading(toml=''):
         cfg.dicom_dir='/gpfs/milgram/scratch60/turk-browne/kp578/dicom_folder/'
         cfg.old_dicom_dir     = findDir(f"{cfg.dicom_folder}{cfg.YYYYMMDD}.{cfg.LASTNAME}*.{cfg.LASTNAME}*/")  # YYYYMMDD.$LASTNAME.$PATIENTID  e.g. /gpfs/milgram/project/realtime/DICOM/20201019.rtSynth_pilot001_2.rtSynth_pilot001_2/ inside which is like 001_000003_000067.dcm    
         cfg.TR=2
+        cfg.tmp_folder="/gpfs/milgram/scratch60/turk-browne/kp578/rtcloud_rt/"
     else:
         cfg.dicom_dir     = findDir(f"{cfg.dicom_folder}{cfg.YYYYMMDD}.{cfg.LASTNAME}*.{cfg.LASTNAME}*/")  # YYYYMMDD.$LASTNAME.$PATIENTID  e.g. /gpfs/milgram/project/realtime/DICOM/20201019.rtSynth_pilot001_2.rtSynth_pilot001_2/ inside which is like 001_000003_000067.dcm    
         cfg.TR=2 #2 #每一个TR有2s
+        cfg.tmp_folder="/tmp/" # for speeding up, use the storage on the local memory unit
     cfg.dicomDir          = cfg.dicom_dir
     cfg.recognition_dir   = f"{cfg.subjects_dir}{cfg.subjectName}/ses{cfg.session}/recognition/"
     cfg.feedback_dir      = f"{cfg.subjects_dir}{cfg.subjectName}/ses{cfg.session}/feedback/"
