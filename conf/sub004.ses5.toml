@@ -34,6 +34,6 @@ plotYRangeHigh = 20
 plotAutoRangeX = false
 plotAutoRangeY = true
 # dicomNamePattern = "001_{SCAN:06d}_{TR:06d}.dcm"
-minExpectedDicomSize=300000
+minExpectedDicomSize=460000 #dicom folder: 465962 465922 465852 465880 465962 local: 465922
 
 trying=false
