@@ -648,7 +648,7 @@ def fetchXnat(sess_ID):
 
     # furthur work need to be done with this resulting nifti folder
 
-def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
+def greedyMask(cfg,N=78,forceGreedy="_",tmp_folder='_'): # N used to be 31, 25
     '''
     purpose:
         starting from N ROIs, get the best performed ROI combination in a greedy way
@@ -796,7 +796,7 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
         t=list(t['Item'])
         behav_data.append(t)
 
-    if tmp_folder=='':
+    if tmp_folder=='' or tmp_folder=='_':
         tmp_folder = f"tmp__folder_{time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time()))}_{time.time()}" #tmp__folder
         mkdir(f"{cfg.projectDir}{tmp_folder}")
     recordingTxt=f"{cfg.projectDir}{tmp_folder}/recording.txt"
@@ -905,8 +905,12 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
             np.save(cfg.chosenMask,mask)
             print(f"saving {cfg.chosenMask}")
         elif forceGreedy=='compare_forceGreedy':
-            np.save(cfg.chosenMask_training,mask)
-            print(f"saving {cfg.chosenMask_training}")
+            raise Exception('compare_forceGreedy in greedyMask')
+            # np.save(cfg.chosenMask_training,mask)
+            # print(f"saving {cfg.chosenMask_training}")
+        else:
+            raise Exception("args.forceGreedy is wrong, should be compare_forceGreedy , forceGreedy or _")
+
         return recordingTxt
         
 
@@ -1033,20 +1037,27 @@ def greedyMask(cfg,N=78,forceGreedy="",tmp_folder=''): # N used to be 31, 25
         np.save(cfg.chosenMask,mask)
         print(f"saving {cfg.chosenMask}")
     elif forceGreedy=='compare_forceGreedy':
-        np.save(cfg.chosenMask_training,mask)
-        print(f"saving {cfg.chosenMask_training}")
+        raise Exception('compare_forceGreedy in greedyMask')
+        # np.save(cfg.chosenMask_training,mask)
+        # print(f"saving {cfg.chosenMask_training}")
+    else:
+        raise Exception("args.forceGreedy is wrong, should be compare_forceGreedy , forceGreedy or _")
 
     print(f"current time is {time.strftime('%Y-%m-%d-%H-%M-%S-%W', time.localtime(time.time()))}")
     greedyEndTime=time.time()
     print(f"greedyEndTime-greedyStartTime={greedyEndTime-greedyStartTime} s")
     print(f"greedyEndTime-greedyStartTime={(greedyEndTime-greedyStartTime)/60} min")
     print(f"greedyEndTime-greedyStartTime={(greedyEndTime-greedyStartTime)/60/60} h")
-    
+
     return recordingTxt
 
-def view_greedy_curve(tmp_folder="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/tmp__folder_2021-06-01-19-46-52",toml="sub003.ses1.toml"):
+def view_greedy_curve(tmp_folder="/gpfs/milgram/scratch60/turk-browne/kp578/06282021/tmp__folder_2021-06-22-08-00-09",toml="sub004.ses1.toml"):
+    # find /gpfs/milgram/scratch60/turk-browne/kp578 -name "tmp__folder_2021-06-22-08-00-09"
+    # /gpfs/milgram/scratch60/turk-browne/kp578/06282021/tmp__folder_2021-06-22-08-00-09
+
     import os
     import sys
+    sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/')
     sys.path.append('/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/')
     import argparse
     import numpy as np
@@ -1071,23 +1082,19 @@ def view_greedy_curve(tmp_folder="/gpfs/milgram/project/turk-browne/projects/rt-
     def load_obj(name):
         with open(name + '.pkl', 'rb') as f:
             return pickle.load(f)
-    # from rtCommon.fileClient import FileInterface
-    # import rtCommon.projectUtils as projUtils
-    # from rtCommon.imageHandling import readRetryDicomFromFileInterface, getDicomFileName, convertDicomImgToNifti
-
 
     argParser = argparse.ArgumentParser()
     argParser.add_argument('--config', '-c', default=toml, type=str, help='experiment file (.json or .toml)')
     argParser.add_argument('--skipPre', '-s', default=False, action='store_true', help='skip preprocess or not')
     argParser.add_argument('--skipGreedy', '-g', default=0, type=int, help='skip greedy or not')
-    argParser.add_argument('--forceGreedy', default=False, action='store_true', help='whether to force Greedy search in current session')
+    argParser.add_argument('--forceGreedy', default='_', type=str, help='whether to force Greedy search in current session, can be compare_forceGreedy , forceGreedy or _')
     argParser.add_argument('--testRun', '-t', default=None, type=int, help='testRun, can be [None,1,2,3,4,5,6,7,8]')
     argParser.add_argument('--scan_asTemplate', '-a', default=1, type=int, help="which scan's middle dicom as Template?")
-    argParser.add_argument('--preprocessOnly', default=False, action='store_true', help='whether to only do preprocess and skip everything else')
+    argParser.add_argument('--preprocessOnly', default=0, type=int, help='whether to only do preprocess and skip everything else')
+    argParser.add_argument('--tmp_folder', default='_' , type=str, help='tmp_folder')
 
     args = argParser.parse_args("")
     from cfg_loading import mkdir,cfg_loading
-    # config="sub001.ses2.toml"
     cfg = cfg_loading(args.config)
 
     # when every mask has run, find the best mask and save as the chosenMask
@@ -1100,8 +1107,6 @@ def view_greedy_curve(tmp_folder="/gpfs/milgram/project/turk-browne/projects/rt-
     for ii,subject in enumerate(subjects):
         for len_topN_1 in range(N-1,0,-1):
             try:
-                # print(f"./{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len_topN_1}")
-                # di = load_obj(f"{cfg.projectDir}{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len_topN_1}")
                 di = load_obj(f"{tmp_folder}/{subject}_{N}_{roiloc}_{dataSource}_{len_topN_1}")
                 GreedyBestAcc[ii,len_topN_1-1] = di['bestAcc']
             except:
