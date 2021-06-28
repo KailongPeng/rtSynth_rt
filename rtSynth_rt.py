@@ -191,6 +191,7 @@ def doRuns(cfg, dataInterface, subjInterface, webInterface):
             print(f"cfg.dicomDir={cfg.dicomDir}, dicomScanNamePattern={dicomScanNamePattern}, cfg.minExpectedDicomSize={cfg.minExpectedDicomSize})")
             print(f"cfg.dicom_dir={cfg.dicom_dir}, cfg.dicomNamePattern={cfg.dicomNamePattern}, \
                 cfg.minExpectedDicomSize={cfg.minExpectedDicomSize}")
+        print(f"cfg.minExpectedDicomSize={cfg.minExpectedDicomSize}")
         streamId = dataInterface.initScannerStream(cfg.dicomDir, 
                                                 dicomScanNamePattern,
                                                 cfg.minExpectedDicomSize)
