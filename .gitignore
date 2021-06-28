@@ -151,6 +151,9 @@ subjects/sub002_backup/
 subjects/sub003_code_testing/
 subjects/sub003_old/
 subjects/sub004_ses2ses3Greedy/
+sub004_BackUpAfterSes4/
+sub004_ses5FeedbackTesting/
+
 
 certs/tmp/_ca.config
 projects/rtSynth_rt/conf/sub102.ses1.toml
