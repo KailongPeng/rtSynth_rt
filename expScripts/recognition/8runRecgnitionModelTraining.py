@@ -51,7 +51,7 @@ argParser.add_argument('--forceGreedy', default='_', type=str, help='whether to 
 argParser.add_argument('--testRun', '-t', default=None, type=int, help='testRun, can be [None,1,2,3,4,5,6,7,8]')
 argParser.add_argument('--scan_asTemplate', '-a', default=1, type=int, help="which scan's middle dicom as Template?")
 argParser.add_argument('--preprocessOnly', default=0, type=int, help='whether to only do preprocess and skip everything else')
-argParser.add_argument('--tmp_folder', default='' , type=str, help='tmp_folder')
+argParser.add_argument('--tmp_folder', default='_' , type=str, help='tmp_folder')
 argParser.add_argument('--jobID', default='' , type=str, help='jobID')
 
 
@@ -72,9 +72,7 @@ recordingTxt=f"{cfg.subjects_dir}{cfg.subjectName}/ses{cfg.session}/recognition/
 try:
     tmp_folder=args.tmp_folder
 except:
-    tmp_folder=''
-if tmp_folder == "_": # this is used when I don't want to give any tmp_folder
-    tmp_folder = ''
+    tmp_folder='_' # this is used when I don't want to give any tmp_folder
 
 print(f"tmp_folder={tmp_folder}")
 
@@ -107,7 +105,7 @@ else:
         # python expScripts/recognition/greedyMask.py
         if not args.skipses1Greedy:
             print("running greedyMask")
-            recordingTxt=greedyMask(cfg)
+            recordingTxt=greedyMask(cfg,forceGreedy=args.forceGreedy,tmp_folder=tmp_folder)
 
     
     if args.forceGreedy=='forceGreedy':
@@ -115,8 +113,10 @@ else:
         # cfg.chosenMask=f"{cfg.subjects_dir}{cfg.subjectName}/ses{cfg.session}/recognition/chosenMask.npy"
         recordingTxt=greedyMask(cfg,forceGreedy=args.forceGreedy,tmp_folder=tmp_folder)
     elif args.forceGreedy=='compare_forceGreedy':
+        print("compare_forceGreedy, skipping greedyMask")
         pass
     elif args.forceGreedy=='_':
+        print("forceGreedy== _ , skipping greedyMask")
         pass
     else:
         raise Exception("args.forceGreedy is wrong, should be compare_forceGreedy , forceGreedy or _")
