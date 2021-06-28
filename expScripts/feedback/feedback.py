@@ -142,7 +142,7 @@ try:
     ThresholdLog=pd.read_csv(cfg.adaptiveThreshold)
 except Exception as e:
     print(f"error: {e}")
-    ThresholdLog = pd.DataFrame(columns=['sub', 'session', 'run', 'threshold', 'successful_trials', 'perfect_trials','monetaryReward10cent','monetaryReward5cent','monetaryReward0cent'])
+    ThresholdLog = pd.DataFrame(columns=['sub', 'session', 'run', 'threshold', 'successful_trials', 'perfect_trials','monetaryReward10cent','monetaryReward5cent','monetaryReward0cents'])
 
 ThresholdLog = AdaptiveThreshold(cfg,ThresholdLog)
 ThresholdLog.to_csv(cfg.adaptiveThreshold, index=False)
