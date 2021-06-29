@@ -5,8 +5,10 @@ print(f"conda env={os.environ['CONDA_DEFAULT_ENV']}")
 
 # sys.path.append('/gpfs/milgram/project/turk-browne/users/kp578/realtime/rt-cloud/')
 def mkdir(folder):
+    import numpy as np
     if not os.path.isdir(folder):
         os.mkdir(folder)
+    np.save(f"{folder}/folderKeeper.npy",1)
 
 def cfg_loading(toml=''):
     def findDir(path):
@@ -91,7 +93,7 @@ def cfg_loading(toml=''):
     }
     # prepare folder structure
     mkdir(f"{cfg.subjects_dir}{cfg.subjectName}") # mkdir subject folder
-    for curr_ses in [1,5,6]: # keep 6 here just for sub002
+    for curr_ses in [1,5]: # keep 6 here just for sub002
         mkdir(f"{cfg.subjects_dir}{cfg.subjectName}/ses{curr_ses}/")
         mkdir(f"{cfg.subjects_dir}{cfg.subjectName}/ses{curr_ses}/catPer/")
         mkdir(f"{cfg.subjects_dir}{cfg.subjectName}/ses{curr_ses}/anat/")
