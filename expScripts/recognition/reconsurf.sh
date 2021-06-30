@@ -20,14 +20,17 @@ cd /gpfs/milgram/project/turk-browne/projects/rt-cloud ; module load AFNI ; modu
 
 anatPath=/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/${subject}/ses1/anat/
 subjectFolder=${anatPath}freesurfer/
-mkdir -p ${subjectFolder}
 
-# process steps 1-5 
-# recon-all -i ${anatPath}T1.nii -autorecon1 -notal-check -subjid ${subject} -sd ${subjectFolder};
-recon-all -i ${anatPath}T1.nii -T2 ${anatPath}T2.nii -T2pial -autorecon1 -notal-check -subjid ${subject} -sd ${subjectFolder};
+if [ ! -d "${subjectFolder}" ]; then
+    mkdir -p ${subjectFolder}
 
-# process steps 6-23
-recon-all -autorecon2 -subjid ${subject} -sd ${subjectFolder};
+    # process steps 1-5 
+    # recon-all -i ${anatPath}T1.nii -autorecon1 -notal-check -subjid ${subject} -sd ${subjectFolder};
+    recon-all -i ${anatPath}T1.nii -T2 ${anatPath}T2.nii -T2pial -autorecon1 -notal-check -subjid ${subject} -sd ${subjectFolder};
 
-# process stages 24-31
-recon-all -autorecon3 -subjid ${subject} -sd ${subjectFolder} -notify ${anatPath}done_${subject}.txt
+    # process steps 6-23
+    recon-all -autorecon2 -subjid ${subject} -sd ${subjectFolder};
+
+    # process stages 24-31
+    recon-all -autorecon3 -subjid ${subject} -sd ${subjectFolder} -notify ${anatPath}done_${subject}.txt
+fi
