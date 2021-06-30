@@ -53,11 +53,6 @@ cfg.jobID=args.jobID
 
 from recognition_dataAnalysisFunctions import behaviorDataLoading,normalize,append_file
 
-def wait(waitfor, delay=1):
-    while not os.path.exists(waitfor):
-        time.sleep(delay)
-        print('waiting for {}'.format(waitfor))
-
 def greedyMask(cfg,N=78,LeaveOutRun=1,recordingTxt = "", tmp_folder=''): # N used to be 31, 25 
     import os
     import numpy as np
@@ -173,7 +168,6 @@ def greedyMask(cfg,N=78,LeaveOutRun=1,recordingTxt = "", tmp_folder=''): # N use
         while not os.path.exists(tmpFile+'_result.npy'):
             time.sleep(5)
             print(f"waiting for {tmpFile}_result.npy\n")
-        time.sleep(2)
         return np.load(tmpFile+'_result.npy',allow_pickle=True)
 
     def numOfRunningJobs():
