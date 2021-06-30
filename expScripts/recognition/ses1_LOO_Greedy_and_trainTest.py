@@ -164,7 +164,7 @@ def greedyMask(cfg,N=78,LeaveOutRun=1,recordingTxt = "", tmp_folder=''): # N use
         behav_data.append(t)
     
     if tmp_folder=='' or tmp_folder=='_':
-        tmp_folder=f"tmp__folder_{time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time()))}"
+        tmp_folder = f"tmp__folder_{time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time()))}_{time.time()}" 
     print(f"tmp_folder={tmp_folder}")
     mkdir(f"{cfg.projectDir}{tmp_folder}")
     save_obj([brain_data,behav_data],f"{cfg.projectDir}{tmp_folder}/{subject}_{dataSource}_{roiloc}_{N}") #{len(topN)}_{i}
