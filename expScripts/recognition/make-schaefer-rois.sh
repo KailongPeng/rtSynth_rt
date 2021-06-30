@@ -77,7 +77,7 @@ else
     else 
         echo "xfm mat does not exist"
         flirt -ref $TEMPLATE_bet -in $ANAT_bet -omat $ANAT2FUNC -out $ANATinFUNC -dof 6 # flirt -ref $TEMPLATE_bet -in $ANAT_bet -omat $ANAT2FUNC -out $ANATinFUNC -dof 6
-
+    fi
     # apply anat to func on wang_in_anat
     flirt -ref $TEMPLATE_bet -in $WANGinANAT -out $WANGinFUNC -applyxfm -init $ANAT2FUNC
 
