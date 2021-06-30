@@ -6,9 +6,11 @@
 #SBATCH --partition=psych_day,psych_scavenge,psych_week,day,scavenge_all,week
 #SBATCH --time=2:00:00
 #SBATCH --mem=10000
-module load AFNI
-module load FreeSurfer/6.0.0
+# module load AFNI
+# module load FreeSurfer/6.0.0
+# source /gpfs/milgram/apps/hpc.rhel7/software/FSL/6.0.3-centos7_64/etc/fslconf/fsl.sh
 
+cd /gpfs/milgram/project/turk-browne/projects/rt-cloud ; module load AFNI ; module load FSL ; source /gpfs/milgram/apps/hpc.rhel7/software/FSL/6.0.3-centos7_64/etc/fslconf/fsl.sh ; module load dcm2niix ; . /gpfs/milgram/apps/hpc.rhel7/software/Python/Anaconda3/etc/profile.d/conda.sh ; conda activate /gpfs/milgram/project/turk-browne/kp578/conda_envs/rtSynth_rt
 
 # 让当前的 makeGreyMatterMask.sh 在这个folder GreyMatterMask里面运行
 subject=$1
@@ -70,7 +72,7 @@ processedEPI_bet=../anat/functional_bet.nii
 if test -f "$processedEPI"; then
     echo "$processedEPI exists."
 else
-    python -u /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py -c ${subject}.ses1.toml --scan_asTemplate ${scan_asTemplate} --preprocessOnly 1
+    python -u /gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.py --config ${subject}.ses1.toml --scan_asTemplate ${scan_asTemplate} --preprocessOnly 1
 fi
 
 bet ${processedEPI} ${processedEPI_bet}
