@@ -1,9 +1,10 @@
-#!/usr/bin/python
-# -*- coding:utf-8 -*-
+#-*- coding: utf-8 -*-
 import os,time,shutil
 import numpy as np
 from glob import glob
-def find_ABCD_T1w_MPR_vNav(sub): # 这个函数的功能是找到第二个ABCD_T1w_MPR_vNav   usable的前面的数字，保存在ABCD_T1w_MPR_vNav.txt里面
+def find_ABCD_T1w_MPR_vNav(sub): 
+    """这个函数的功能是找到第二个ABCD_T1w_MPR_vNav  usable的前面的数字，保存在ABCD_T1w_MPR_vNav.txt里面"""
+
     raw_dir="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/"
     os.chdir(raw_dir)
     f = open(raw_dir+sub+"_run_name.txt","r")
@@ -15,7 +16,7 @@ def find_ABCD_T1w_MPR_vNav(sub): # 这个函数的功能是找到第二个ABCD_T
     T2_ID = int(T2_ID.split("\n")[1])
 
     f = open(raw_dir+sub+"_ABCD_T1w_MPR_vNav.txt","w")
-    f.write(f"T1_ID={T1_ID} ; T2_ID={T2_ID}")
+    f.write("T1_ID={} ; T2_ID={}".format(T1_ID,T2_ID))
     f.close()
 
 def wait(waitfor, delay=1):
@@ -30,9 +31,9 @@ def find_T1_in_niiFolder(T1_ID,T2_ID,sub):
     else:
         ses=1
 
-    nii_path=f"/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/{sub}/nifti/"
-    print(f"nii_path={nii_path}")
-    files = glob(f"{nii_path}*.nii")
+    nii_path="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/raw/{}/nifti/".format(sub)
+    print("nii_path={}".format(nii_path))
+    files = glob("{}*.nii".format(nii_path))
     for curr_file in files:
         runID=curr_file.split("/")[-1].split("_")[-1].split(".nii")[0]
         try:
@@ -44,12 +45,12 @@ def find_T1_in_niiFolder(T1_ID,T2_ID,sub):
                 T2=curr_file
         except:
             pass
-    AnatFolder = f"/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/{subjectName}/ses{ses}/anat/"
-    print(f"T1={T1}")
-    print(f"T2={T2}")
-    print(f"AnatFolder={AnatFolder}")
-    shutil.copyfile(T1,f"{AnatFolder}T1.nii")
-    shutil.copyfile(T2,f"{AnatFolder}T2.nii")
+    AnatFolder = "/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/subjects/{}/ses{}/anat/".format(subjectName,ses)
+    print("T1={}".format(T1))
+    print("T2={}".format(T2))
+    print("AnatFolder={}".format(AnatFolder))
+    shutil.copyfile(T1,"{}T1.nii".format(AnatFolder))
+    shutil.copyfile(T2,"{}T2.nii".format(AnatFolder))
 
 def _split(sub):
     subjectName=sub.split("_")[1] # sub 可能是rtSynth_sub001_ses5 或者 rtSynth_sub001; subjectName 应该是sub001之类的
@@ -59,6 +60,6 @@ def _split(sub):
         ses=1
 
     code_dir="/gpfs/milgram/project/turk-browne/projects/rt-cloud/projects/rtSynth_rt/expScripts/recognition/recognitionDataAnalysis/"
-    f = open(f"{code_dir}{sub}_subjectName.txt","w")
-    f.write(f"subjectName={subjectName} ; ses={ses}")
+    f = open("{}{}_subjectName.txt".format(code_dir,sub),"w")
+    f.write("subjectName={} ; ses={}".format(subjectName,ses))
     f.close()
