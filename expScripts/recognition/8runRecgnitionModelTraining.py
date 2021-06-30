@@ -44,7 +44,7 @@ def load_obj(name):
 
 
 argParser = argparse.ArgumentParser()
-argParser.add_argument('--config', '-c', default='sub001.ses1.toml', type=str, help='experiment file (.json or .toml)')
+argParser.add_argument('--config', '-c', default='sub005.ses1.toml', type=str, help='experiment file (.json or .toml)')
 argParser.add_argument('--skipPre', '-s', default=0, type=int, help='skip preprocess or not')
 argParser.add_argument('--skipses1Greedy', '-g', default=0, type=int, help='skip greedy or not') #1 is skip 0 is not skip
 argParser.add_argument('--forceGreedy', default='_', type=str, help='whether to force Greedy search in current session, can be compare_forceGreedy , forceGreedy or _')
@@ -53,7 +53,6 @@ argParser.add_argument('--scan_asTemplate', '-a', default=1, type=int, help="whi
 argParser.add_argument('--preprocessOnly', default=0, type=int, help='whether to only do preprocess and skip everything else')
 argParser.add_argument('--tmp_folder', default='_' , type=str, help='tmp_folder')
 argParser.add_argument('--jobID', default='' , type=str, help='jobID')
-
 
 
 args = argParser.parse_args()
