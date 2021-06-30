@@ -91,7 +91,7 @@ cd /gpfs/milgram/project/turk-browne/projects/rt-cloud/
 
 sbatch projects/rtSynth_rt/expScripts/recognition/8runRecgnitionModelTraining.sh ${subjectName}.ses${ses}.toml ${scan_asTemplate} 0 1 _ _ # config， scan_asTemplate， skipses1Greedy， skipPre， forceGreedy， tmp_folder
 
-for leaveOutRun in {1..8} ； do
+for leaveOutRun in {1..8} ; do
     sleep 3
     echo sbatch projects/rtSynth_rt/expScripts/recognition/ses1_LOO_Greedy_and_trainTest.sh ${subjectName}.ses1.toml ${leaveOutRun} _ #_ means tmpFolder is None
     sbatch projects/rtSynth_rt/expScripts/recognition/ses1_LOO_Greedy_and_trainTest.sh ${subjectName}.ses1.toml ${leaveOutRun} _ #_ means tmpFolder is None
