@@ -198,7 +198,7 @@ def recognition_preprocess_2run(cfg,scan_asTemplate):
     # convert cfg.templateFunctionalVolume to the previous template volume space 
     cmd=f"flirt -ref {cfg.templateFunctionalVolume} \
         -in {tmp[int(len(tmp)/2)]} \
-        -out {cfg.templateFunctionalVolume_converted}"
+        -out {cfg.templateFunctionalVolume_converted} -dof 6" # flirt -ref $TEMPLATE_bet -in $ANAT_bet -omat $ANAT2FUNC -out $ANATinFUNC -dof 6
     print(cmd)
     call(cmd,shell=True) 
 
