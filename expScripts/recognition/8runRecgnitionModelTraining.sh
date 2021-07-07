@@ -2,7 +2,7 @@
 #SBATCH --output=logs/8runRecgnitionModelTraining-%j.out
 ##SBATCH -p day
 ##SBATCH -t 24:00:00
-#SBATCH --partition=psych_day,psych_scavenge,psych_week,day,scavenge_all,week
+#SBATCH --partition=psych_day,psych_scavenge,psych_week,day,week
 #SBATCH --time=6:00:00 #20:00:00
 #SBATCH --mem 4GB
 #SBATCH -n 1
