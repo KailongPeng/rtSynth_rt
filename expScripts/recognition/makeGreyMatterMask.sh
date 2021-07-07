@@ -3,7 +3,7 @@
 #SBATCH --output=logs/makeGreyMatterMask-%j.out
 #SBATCH --job-name makeGreyMatterMask
 ##SBATCH --partition=short,scavenge,day
-#SBATCH --partition=psych_day,psych_scavenge,psych_week,day,scavenge_all,week
+#SBATCH --partition=psych_day,psych_scavenge,psych_week,day,week
 #SBATCH --time=2:00:00
 #SBATCH --mem=10000
 # module load AFNI

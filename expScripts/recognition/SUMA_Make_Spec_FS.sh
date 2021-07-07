@@ -3,7 +3,7 @@
 #SBATCH --output=logs/SUMA_Make_Spec_FS-%j.out
 #SBATCH --job-name SUMA_Make_Spec_FS
 ##SBATCH --partition=short,scavenge,day
-#SBATCH --partition=psych_day,psych_scavenge,psych_week,day,scavenge_all,week
+#SBATCH --partition=psych_day,psych_scavenge,psych_week,day,week
 #SBATCH --time=2:00:00
 #SBATCH --mem=10000
 module load AFNI

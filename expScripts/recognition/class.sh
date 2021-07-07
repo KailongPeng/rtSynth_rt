@@ -3,7 +3,7 @@
 
 #SBATCH --output=logs/class-%j.out
 #SBATCH --job-name class
-#SBATCH --partition=psych_day,psych_scavenge,psych_week,day,scavenge_all,week
+#SBATCH --partition=psych_day,psych_scavenge,psych_week,day,week
 #SBATCH --time=1:00:00 #20:00:00
 ##SBATCH --mem=10000
 ##SBATCH -n 5

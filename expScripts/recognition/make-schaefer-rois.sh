@@ -1,6 +1,6 @@
 #!/bin/bash
 ##SBATCH --partition=short   
-#SBATCH --partition=psych_day,psych_scavenge,psych_week,day,scavenge_all,week
+#SBATCH --partition=psych_day,psych_scavenge,psych_week,day,week
 #SBATCH --job-name=sMasks
 #SBATCH --time=40:00
 #SBATCH --output=./logs/schaeferMask-%j.out
